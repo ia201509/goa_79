@@ -1,0 +1,11 @@
+ # 4)დაპირნტტეთ თქვენი სახელი 10 ჯერ
+print("levan")
+print("levan")
+print("levan")
+print("levan")
+print("levan")
+print("levan")
+print("levan")
+print("levan")
+print("levan")
+print("levan")
