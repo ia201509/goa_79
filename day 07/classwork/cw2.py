@@ -2,5 +2,5 @@
 
 name = input("შენი სახელი: ")
 num = int(input("რაიმე რიცხვი: "))
-print(name == "ana")
-print(num == 50)
+print(name == "ana" and num == 50)
+
