@@ -3,4 +3,4 @@
 
 text = input("შეიყვანე სტრინგი: ")
 left_trimmed = text.lstrip()
-print("მარცხენა white space-ების გარეშე:", left_trimmed)
+print(left_trimmed)

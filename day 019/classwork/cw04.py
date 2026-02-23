@@ -3,3 +3,4 @@
 user_input = input("შეიყვანე სტრინგი: ")
 title_string = user_input.title()
 print(title_string)
+

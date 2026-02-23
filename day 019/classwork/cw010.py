@@ -2,4 +2,4 @@
 
 sentence = input("შეიყვანე წინადადება: ")
 trimmed_sentence = sentence.strip()
-print("წინადადება ზედმეტი space-ების გარეშე:", trimmed_sentence)
+print(trimmed_sentence)

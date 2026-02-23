@@ -4,7 +4,4 @@
 text = input("შეიყვანე სტრინგი: ")
 char = input("შეიყვანე ერთი ასო: ")
 index = text.find(char)
-if index != -1:
-    print("პირველი ინდექსი:", index)
-else:
-    print("ასო სტრინგში ვერ მოიძებნა")
+print(index)
