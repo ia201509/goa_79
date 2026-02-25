@@ -4,9 +4,4 @@ user_input = input("შეიყვანე სიტყვა: ")
 if user_input.isupper():
     print("სიტყვა უკვე დიდია!")
 else:
-    print("არაადიდი")
-
-
-name = input("შეიყვანე იგივე სიტყვა: ")
-l = name.upper()
-print(l)
+    print(user_input.upper())

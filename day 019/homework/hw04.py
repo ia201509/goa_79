@@ -2,11 +2,7 @@
 #  შედეგი კი დაბეჭდეთ დიდი ასოებით.
 
 user_input = input("შეიყვანე ელფოსტა: ")
-if user_input.islower():
-    print("არის")
+if user_input.find("@")>= 0:
+    print("არის @ ამ სტრინგში მე-"+str(user_input.find("@"))+"ე ინდექსზე")
 else:
-    print("არ არის")
-
-user_input = input("შეიყვანე ელფოსტა: ")
-user_input.upper()
-
+    print("არ არის @ ამ სტრინგში")
