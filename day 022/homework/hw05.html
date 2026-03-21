@@ -1,0 +1,35 @@
+<!-- 5) შექმენით form ა 6 შესაყვანი ველით და გენდერის ასარჩევით, გამოიყენეთ ყველა ატრიბუტი- -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>form ა 6</h1>
+        <form>
+            <label for="username">Enter your name</label><br>
+            <input type="text" id="username" placeholder="username" name="username" maxlength="24" minlength="3" required><br><br>
+
+            <label for="usersurname">Enter your surname</label><br>
+            <input type="text" id="usersurname" placeholder="usersurname" name="surname" maxlength="14" minlength="4" required><br><br>
+
+            <label for="useremail">Enter your email</label><br>
+            <input type="email" id="useremail" placeholder="useremail" name="email" required><br><br>
+
+            <label for="userpass">Enter your password</label><br>
+            <input type="password" id="userpass" placeholder="userpass" name="password" required><br><br>
+
+            <label for="female">Female</label>
+            <input type="radio" name="gender" id="female" required>
+            <br>
+            <label for="male">Male</label>
+            <input type="radio" name="gender" id="male" required><br><br>
+
+            <input type="submit"> 
+        </form>
+
+</body>
+</html>
