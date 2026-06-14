@@ -1,0 +1,30 @@
+style    h1{
+
+
+        background-color:white;
+        color:red;
+        text-align: left;
+        font-size: 30px;
+        border: 60  px ridge blue
+    }
+
+    p{
+
+        background-color:purple;
+        color:blue;
+        text-align: right;
+        font-size: 40px;
+        border: 20px ridge black
+    }
+
+
+    button{
+
+
+
+        background-color:yelow;
+        color:grai;
+        text-align: center;
+        font-size: 50px;
+        border: 5px ridge green
+    }
