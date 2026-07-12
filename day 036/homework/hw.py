@@ -45,7 +45,7 @@ def even_or_odd(number):
 
 
 def square(n):
-    return n * n
+    return n * 2
 
 
 
