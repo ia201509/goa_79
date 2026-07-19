@@ -1,0 +1,34 @@
+   
+
+
+
+body{
+
+    height: 100vh
+}
+
+
+.boy{
+
+    width: 50%;
+    height:25%
+}
+
+.girl{
+
+
+    width: 25%;
+    height:25%
+}
+
+.dinosaur{
+
+    width: 100%;
+    height:25%
+}
+
+.name{
+
+    width: 75%;
+    height:25%
+}
