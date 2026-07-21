@@ -1,0 +1,14 @@
+body{
+
+    height: 100vh;
+}
+
+article{
+    font-size: 45px;
+}
+
+p{
+
+    height: 40%;
+    width: 40%;
+}

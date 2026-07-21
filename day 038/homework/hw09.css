@@ -1,0 +1,15 @@
+body{
+
+    height: 100vh;
+}
+
+main{
+
+    font-size: 52px
+}
+
+button{
+
+    height: 150%;
+    width: 150%;
+}

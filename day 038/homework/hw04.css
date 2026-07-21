@@ -1,0 +1,15 @@
+body{
+
+    height: 100vh;
+}
+
+div{
+
+    font-size: 34px;
+}
+
+input{
+
+    height: 41%;
+    width: 41%;
+}
