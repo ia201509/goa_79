@@ -1,0 +1,19 @@
+* {
+    padding: 0px; 
+    margin: 0px; 
+    box-sizing: border-box;
+}
+
+
+.d1{
+    padding: 100px;
+}
+
+.d2{
+
+    padding: 210px;
+}
+
+.d3{
+    padding: 20px;
+}
