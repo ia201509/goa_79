@@ -1,0 +1,17 @@
+#parent{
+    width: 700px;
+    height: 600px;
+    background-color: firebrick;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.child {
+    width: 60px;
+    height: 60px;
+    background-color: red;
+    border: 2px solid black;
+}

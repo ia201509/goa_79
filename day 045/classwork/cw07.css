@@ -1,0 +1,16 @@
+#parent{
+    width:500px ;
+    height:600px ;
+    background-color: darkmagenta;
+    display: flex;
+    align-items: center;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+}
+
+.child {
+    width: 60px;
+    height: 60px;
+    background-color: red;
+    border: 2px solid black;
+}
