@@ -1,0 +1,26 @@
+
+/* 6. **ვერტიკალური გამეორება:** შექმენი `300px × 400px` ზომის `div`, რომელშიც ფოტო მხოლოდ ვერტიკალურად განმეორდება. ჰორიზონტალურად ფოტო არ უნდა მეორდებოდეს. */
+
+
+body {
+    
+    background-image: url('lj.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+
+
+div {
+    width: 300px;
+    height: 400px;
+    background-image: url("lj2.jpg");
+    background-repeat: repeat-y;
+}

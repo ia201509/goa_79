@@ -1,0 +1,49 @@
+/* 4. **ფოტოს პოზიცია:** შექმენი სამი `div`, თითოეულში ერთი და იგივე ფოტო გამოიყენე. პირველში ფოტო განათავსე ზედა მარცხენა კუთხეში, მეორეში — ცენტრში, მესამეში კი — ქვედა მარჯვენა კუთხეში. */
+
+
+
+body {
+    background-image: url('lj.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+.one {
+    width: 400px;
+    height: 400px;
+    background-image: url('lj2.jpg');
+    background-position: top left;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: blue;
+    
+}
+
+.too {
+    width: 400px;
+    height: 400px;
+    background-image: url('lj2.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: blue;
+    
+}
+
+.three {
+    width: 400px;
+    height: 400px;
+    background-image: url('lj2.jpg');
+    background-position: bottom right;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: blue;
+    
+}

@@ -1,0 +1,29 @@
+/* 1. **ფონის სურათი:** შექმენი ვებგვერდი, რომელსაც უკანა ფონად ექნება `background-image`. ფოტო არ უნდა მეორდებოდეს და ეკრანის ცენტრში უნდა იყოს განლაგებული. */
+
+
+
+
+body {
+    background-image: url('lj.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+div {
+    width: 300px;
+    height: 300px;
+    background-image: url('lj2.jpg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: red;
+    justify-content: center;
+    align-items: center;
+}

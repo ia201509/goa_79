@@ -1,0 +1,44 @@
+/* 8. **ყველა თვისების გამოყენება:** შექმენი ვებგვერდი, რომელშიც `body`-ს ექნება უკანა ფონის ფოტო, რომელიც ეკრანის ცენტრში იქნება განლაგებული და სქროლვისას ფიქსირებული დარჩება. დაამატე სამი `div` სხვადასხვა ფოტოთი, ზომითა და პოზიციით. გამოიყენე `background-image`, `background-position`, `background-size`, `background-repeat` და `background-attachment` თვისებები. `body`-ში ელემენტები ვერტიკალურად და ჰორიზონტალურად ცენტრში განალაგე და მათ შორის თანაბარი დაშორება შექმენი. */
+
+
+body {
+    background-image: url("lj.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+div {
+    background-image: url("lj2.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 200px;
+    background-position: left;
+}
+
+p {
+    background-image: url("lj3.avif");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 250px;
+    height: 250px;
+    background-size: contain;
+}
+
+h3 {
+    background-image: url("lj4.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 350px;
+    height: 180px;
+    background-position: right;
+}

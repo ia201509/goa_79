@@ -1,0 +1,29 @@
+
+/* 3. **ფოტოს სრულად გამოჩენა:** შექმენი `400px × 400px` ზომის ლურჯი `div`, რომელშიც ფოტო სრულად უნდა ჩანდეს. გამოიყენე შესაბამისი `background-size` და `background-repeat` თვისებები. */
+
+
+
+
+body {
+    background-image: url('lj.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+div {
+    width: 400px;
+    height: 400px;
+    background-image: url('lj2.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: blue;
+    
+}

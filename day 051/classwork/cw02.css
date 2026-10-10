@@ -1,0 +1,26 @@
+/* 2. **ფონის ზომა:** შექმენი `300px × 300px` ზომის `div`, რომელსაც ექნება უკანა ფოტო. გამოიყენე `background-size: cover`, რათა ფოტომ მთლიანად დაფაროს ელემენტი. */
+
+
+body {
+    background-image: url('lj.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+div {
+    width: 300px;
+    height: 300px;
+    background-image: url('lj2.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: red;
+    
+}
