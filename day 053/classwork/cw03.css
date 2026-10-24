@@ -1,0 +1,37 @@
+/* 3. დავალება — X და Y ღერძები
+- შექმენი 200x200px იისფერი კვადრატი.
+- hover-ზე გამოიყენე rotateX(180deg).
+- მაუსის მოცილებისას კვადრატი საწყის მდგომარეობას დაუბრუნდეს.
+- დაამატე transition: 1s.
+- შემდეგ შეცვალე rotateX rotateY-ით და დააკვირდი განსხვავებას. */
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 200px;
+    height: 200px;
+    background-color: purple;
+    
+    transition: 1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container:hover {
+    transform:  translate(0, -100px) rotateX(180deg) ;
+    background-color: green;
+    
+}
+
+.container h1 {
+    font-size: 35px;
+    color: white;
+    transition: 1s;
+    
+}

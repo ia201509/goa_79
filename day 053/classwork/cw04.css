@@ -1,0 +1,36 @@
+/* 4. დავალება — დახრილი კვადრატი
+- შექმენი 200x200px ნარინჯისფერი კვადრატი.
+- hover-ზე გამოიყენე skew(20deg).
+- კვადრატი გადაადგილდეს 100px-ით მარჯვნივ და 50px-ით ზემოთ.
+- ფერი შეიცვალოს ყვითლად.
+- ყველა ცვლილება შესრულდეს 1 წამში. */
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 200px;
+    height: 200px;
+    background-color: orange;
+    
+    transition: 1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container:hover {
+    transform:  translate(50px, -100px) skew(20deg) ;
+    background-color: yellow;
+    
+}
+
+.container h1 {
+    font-size: 35px;
+    color: white;
+    transition: 1s;
+    
+}
