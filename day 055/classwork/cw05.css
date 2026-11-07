@@ -1,0 +1,49 @@
+/* 
+5. რთული ანიმაცია
+- შექმენით 150x150px კვადრატი.
+- გამოიყენეთ @keyframes.
+- ანიმაციის დროს:
+  - 0% — წითელი, საწყისი პოზიცია.
+  - 25% — ყვითელი, დატრიალდეს 90 გრადუსით.
+  - 50% — მწვანე, გადაადგილდეს მარჯვნივ 200px-ით.
+  - 75% — ლურჯი, დატრიალდეს 270 გრადუსით.
+  - 100% — დაბრუნდეს საწყის პოზიციაზე და გახდეს წითელი.
+- ანიმაცია გრძელდებოდეს 6 წამი და მეორდებოდეს უსასრულოდ.
+დამატებითი პირობა: ყველა დავალებაში გამოიყენეთ ცალკე @keyframes და animation-name, animation-duration, animation-iteration-count თვისებები. */
+
+
+div {
+    width: 150px;
+    height: 150px;
+    background-color: red;
+    animation-name: complexAnimation;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes complexAnimation {
+    0% {
+        background-color: red;
+        transform: translateX(0) rotate(0deg);
+    }
+
+    25% {
+        background-color: yellow;
+        transform: translateX(0) rotate(90deg);
+    }
+
+    50% {
+        background-color: green;
+        transform: translateX(200px) rotate(180deg);
+    }
+
+    75% {
+        background-color: blue;
+        transform: translateX(200px) rotate(270deg);
+    }
+
+    100% {
+        background-color: red;
+        transform: translateX(0) rotate(360deg);
+    }
+}

@@ -1,0 +1,28 @@
+/* 1. მბრუნავი კვადრატი
+- შექმენით div, რომლის სიგანე და სიმაღლე იქნება 200px.
+- ფონის ფერი იყოს ლურჯი.
+- შექმენით ანიმაცია სახელად rotate.
+- ანიმაციის დროს ელემენტი უნდა დატრიალდეს 360 გრადუსით.
+- ანიმაცია გრძელდებოდეს 3 წამი და მეორდებოდეს უსასრულოდ. */
+
+div{
+    width: 200px;
+    height: 200px;
+    background-color: blue;
+    animation-name: rotation 3s infinite
+};
+
+
+
+@keyframes rotate {
+    from {
+        
+        transform: rotate(0deg);
+        
+    }
+
+    to {
+        
+        transform: rotate(360deg);
+    }
+}
