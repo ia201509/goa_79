@@ -1,0 +1,551 @@
+
+
+ <!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>დედაენის გზა</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 25px 15px;
+  background: #f5f0e5;
+  color: #292d29;
+  font-family: Arial, sans-serif;
+}
+
+.page {
+  max-width: 780px;
+  margin: auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h1 {
+  color: #345c56;
+  font-size: clamp(32px, 7vw, 48px);
+}
+
+header p {
+  line-height: 1.8;
+  color: #6c716c;
+}
+
+.card {
+  background: #fffdf8;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px #00000012;
+}
+
+.bar {
+  background: #527a73;
+  color: white;
+  padding: 17px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.progress {
+  height: 8px;
+  background: #e8e5dc;
+}
+
+#progress {
+  height: 8px;
+  width: 0%;
+  background: #d2b36c;
+  transition: width .3s;
+}
+
+.content {
+  padding: 30px;
+}
+
+.tag {
+  display: inline-block;
+  background: #eaf0eb;
+  color: #345c56;
+  padding: 8px 13px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+h2 {
+  color: #345c56;
+}
+
+p {
+  line-height: 1.8;
+}
+
+.timeline {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.timeline-item {
+  padding: 13px;
+  background: #f7f4ec;
+  border-left: 4px solid #c7ad70;
+  line-height: 1.7;
+  border-radius: 7px;
+}
+
+.timeline-item strong {
+  color: #345c56;
+}
+
+.question {
+  margin-top: 25px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.options {
+  display: grid;
+  gap: 10px;
+}
+
+button {
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.option {
+  background: white;
+  border: 2px solid #e4dfd3;
+  border-radius: 10px;
+  padding: 14px;
+  text-align: left;
+  width: 100%;
+}
+
+.option:hover:not(:disabled) {
+  border-color: #527a73;
+  background: #f5f8f5;
+}
+
+.option:disabled {
+  cursor: default;
+}
+
+.option.correct {
+  background: #edf6ef;
+  border-color: #397651;
+}
+
+.option.wrong {
+  background: #fbf0e6;
+  border-color: #a87951;
+}
+
+.feedback {
+  margin-top: 15px;
+  min-height: 25px;
+  line-height: 1.7;
+  font-weight: bold;
+}
+
+.good {
+  color: #397651;
+}
+
+.bad {
+  color: #80502e;
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+.main-button {
+  background: #527a73;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 20px;
+  font-weight: bold;
+}
+
+.main-button:hover {
+  background: #345c56;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.finish {
+  text-align: center;
+}
+
+.greeting {
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 14px;
+  background: #f2f1e5;
+  color: #345c56;
+  font-weight: bold;
+  line-height: 1.8;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #6c716c;
+}
+
+@media(max-width: 480px) {
+  .content {
+    padding: 20px;
+  }
+
+  .bar {
+    padding: 14px;
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<header>
+  <h1>დედაენის გზა</h1>
+  <p>გაეცანი ქართული ენის ისტორიას, უპასუხე კითხვებს და შეაგროვე ქულები!</p>
+</header>
+
+<div class="card">
+
+  <div class="bar">
+    <span id="stage">მზად ხარ?</span>
+    <span id="score">ქულა: 0</span>
+  </div>
+
+  <div class="progress">
+    <div id="progress"></div>
+  </div>
+
+  <div class="content" id="content"></div>
+
+</div>
+
+<footer>
+ქართული ენა ჩვენი ისტორიაა და ჩვენი მომავალი!
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+const lessons = [
+{
+  title: "ქართული ენის ისტორია",
+  tag: "ენის ევოლუცია",
+  text: "ქართული ენა ქართველურ ენათა ოჯახს ეკუთვნის. მას მრავალსაუკუნოვანი ისტორია აქვს. ძველი წარწერები და ხელნაწერები ქართული ენის ისტორიას გვიყვება.",
+  timeline: [
+    ["ქართული წარწერები", "ადრეული ქართული წარწერები V საუკუნიდან არის ცნობილი."],
+    ["დამწერლობა", "ქართული დამწერლობის სახეებია ასომთავრული, ნუსხური და მხედრული."],
+    ["მწერლობა", "ხელნაწერებმა და წიგნებმა ქართული ენა შემოგვინახა."],
+    ["ენა დღეს", "ქართული ენა დღესაც ვითარდება."]
+  ],
+  question: "რომელია ქართული დამწერლობის ერთ-ერთი სახე?",
+  options: ["ასომთავრული", "ლათინური", "არაბული"],
+  answer: 0,
+  explanation: "სწორია! ასომთავრული ქართული დამწერლობის ერთ-ერთი სახეა."
+},
+{
+  title: "არსებითი სახელი",
+  tag: "გრამატიკა",
+  question: "რომელია არსებითი სახელი?",
+  options: ["ლამაზი", "წიგნი", "კითხულობს"],
+  answer: 1,
+  explanation: "წიგნი საგნის სახელია და არსებითი სახელია."
+},
+{
+  title: "ზედსართავი სახელი",
+  tag: "გრამატიკა",
+  question: "რომელ წინადადებაშია ზედსართავი სახელი?",
+  options: [
+    "ბავშვი კითხულობს.",
+    "ლამაზი ყვავილი გაიშალა.",
+    "მზე ანათებს."
+  ],
+  answer: 1,
+  explanation: "ლამაზი ყვავილის ნიშანს აღნიშნავს."
+},
+{
+  title: "ზმნა",
+  tag: "გრამატიკა",
+  question: "რომელია ზმნა წინადადებაში: „ნინო ქართულად წერს“?",
+  options: ["ნინო", "ქართულად", "წერს"],
+  answer: 2,
+  explanation: "წერს მოქმედებას აღნიშნავს და ზმნაა."
+},
+{
+  title: "სწორი წერა",
+  tag: "მართლწერა",
+  question: "რომელი წინადადებაა სწორად დაწერილი?",
+  options: [
+    "მე მიყვარს ქართული ენა.",
+    "მე მიყვარს ქართულიენა.",
+    "მე მიყვარს ქართულ ენა."
+  ],
+  answer: 0,
+  explanation: "სწორია: მე მიყვარს ქართული ენა."
+},
+{
+  title: "ქვემდებარე",
+  tag: "გრამატიკა",
+  question: "წინადადებაში „მზე ანათებს“ რა ანათებს?",
+  options: ["მზე", "ანათებს", "სიტყვა არ არის"],
+  answer: 0,
+  explanation: "მზე წინადადების ქვემდებარეა."
+}
+];
+
+const content = document.getElementById("content");
+const stage = document.getElementById("stage");
+const score = document.getElementById("score");
+const progress = document.getElementById("progress");
+
+let current = 0;
+let points = 0;
+let answered = false;
+
+function makeButton(text, className, action) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.textContent = text;
+  btn.className = className;
+  btn.addEventListener("click", action);
+  return btn;
+}
+
+function updateScore() {
+  score.textContent = "ქულა: " + points;
+}
+
+function showIntro() {
+  stage.textContent = "მზად ხარ?";
+  progress.style.width = "0%";
+  content.replaceChildren();
+
+  const tag = document.createElement("span");
+  tag.className = "tag";
+  tag.textContent = "დაიწყე თამაში";
+
+  const title = document.createElement("h2");
+  title.textContent = "აღმოაჩინე ქართული ენა";
+
+  const description = document.createElement("p");
+  description.textContent =
+    "გაეცანი ქართული ენის ისტორიას და უპასუხე გრამატიკის კითხვებს. თითოეული სწორი პასუხი ერთ ქულას მოგიტანს.";
+
+  const controls = document.createElement("div");
+  controls.className = "controls";
+
+  controls.appendChild(
+    makeButton("თამაშის დაწყება", "main-button", startGame)
+  );
+
+  content.append(tag, title, description, controls);
+}
+
+function startGame() {
+  current = 0;
+  points = 0;
+  answered = false;
+  updateScore();
+  showLesson();
+}
+
+function showLesson() {
+  answered = false;
+
+  const lesson = lessons[current];
+
+  stage.textContent =
+    "ეტაპი " + (current + 1) + " / " + lessons.length;
+
+  progress.style.width =
+    (current / lessons.length * 100) + "%";
+
+  content.replaceChildren();
+
+  const tag = document.createElement("span");
+  tag.className = "tag";
+  tag.textContent = lesson.tag;
+
+  const title = document.createElement("h2");
+  title.textContent = lesson.title;
+
+  content.append(tag, title);
+
+  if (lesson.text) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = lesson.text;
+    content.appendChild(paragraph);
+  }
+
+  if (lesson.timeline) {
+    const timeline = document.createElement("div");
+    timeline.className = "timeline";
+
+    lesson.timeline.forEach(function(item) {
+      const box = document.createElement("div");
+      box.className = "timeline-item";
+
+      const strong = document.createElement("strong");
+      strong.textContent = item[0] + " — ";
+
+      box.append(
+        strong,
+        document.createTextNode(item[1])
+      );
+
+      timeline.appendChild(box);
+    });
+
+    content.appendChild(timeline);
+  }
+
+  const question = document.createElement("p");
+  question.className = "question";
+  question.textContent = lesson.question;
+
+  const options = document.createElement("div");
+  options.className = "options";
+
+  const feedback = document.createElement("div");
+  feedback.className = "feedback";
+  feedback.setAttribute("aria-live", "polite");
+
+  const controls = document.createElement("div");
+  controls.className = "controls";
+
+  const next = makeButton(
+    current === lessons.length - 1
+      ? "შედეგის ნახვა"
+      : "შემდეგი ეტაპი",
+    "main-button hidden",
+    nextLesson
+  );
+
+  lesson.options.forEach(function(answerText, index) {
+    const answerButton = makeButton(
+      answerText,
+      "option",
+      function() {
+        if (answered) return;
+
+        answered = true;
+
+        const allOptions = options.querySelectorAll("button");
+
+        allOptions.forEach(function(btn) {
+          btn.disabled = true;
+        });
+
+        if (index === lesson.answer) {
+          points++;
+          answerButton.classList.add("correct");
+
+          feedback.textContent = "✓ " + lesson.explanation;
+          feedback.className = "feedback good";
+        } else {
+          answerButton.classList.add("wrong");
+          allOptions[lesson.answer].classList.add("correct");
+
+          feedback.textContent =
+            "არაუშავს! სწორი პასუხია: " +
+            lesson.options[lesson.answer] +
+            ". " + lesson.explanation;
+
+          feedback.className = "feedback bad";
+        }
+
+        updateScore();
+        next.classList.remove("hidden");
+      }
+    );
+
+    options.appendChild(answerButton);
+  });
+
+  controls.appendChild(next);
+
+  content.append(
+    question,
+    options,
+    feedback,
+    controls
+  );
+}
+
+function nextLesson() {
+  current++;
+
+  if (current >= lessons.length) {
+    showFinish();
+  } else {
+    showLesson();
+  }
+}
+
+function showFinish() {
+  stage.textContent = "თამაში დასრულებულია";
+  progress.style.width = "100%";
+  content.replaceChildren();
+
+  const finish = document.createElement("div");
+  finish.className = "finish";
+
+  const title = document.createElement("h2");
+  title.textContent = "გილოცავ თამაშის დასრულებას!";
+
+  const result = document.createElement("p");
+  result.textContent =
+    "შენ დააგროვე " + points + " ქულა " +
+    lessons.length + "-დან.";
+
+  const greeting = document.createElement("div");
+  greeting.className = "greeting";
+  greeting.textContent =
+    "გილოცავთ დედაენის 150 წლის იუბილეს! " +
+    "ვუფრთხილდეთ ქართულ ენას — ჩვენს სიტყვას, ისტორიასა და მომავალს.";
+
+  const restart = makeButton(
+    "თავიდან თამაში",
+    "main-button",
+    startGame
+  );
+
+  finish.append(title, result, greeting, restart);
+  content.appendChild(finish);
+}
+
+showIntro();
+updateScore();
+
+</script>
+
+</body>
+</html> 
