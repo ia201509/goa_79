@@ -2,977 +2,531 @@
 <html lang="ka">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>დედა ენის გზა</title>
-
+<title>დედაენა 150 - ოთხი სამყაროს მოგზაურობა</title>
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 25px 15px;
-  background: #f5f0e5;
-  color: #292d29;
-  font-family: Arial, sans-serif;
-}
-
-.page {
-  max-width: 780px;
-  margin: auto;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-h1 {
-  color: #345c56;
-  font-size: clamp(32px, 7vw, 48px);
-}
-
-header p {
-  line-height: 1.8;
-  color: #6c716c;
-}
-
-.card {
-  background: #fffdf8;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 12px 35px #00000012;
-}
-
-.bar {
-  background: #527a73;
-  color: white;
-  padding: 17px;
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-}
-
-.progress {
-  height: 8px;
-  background: #e8e5dc;
-}
-
-#progress {
-  height: 8px;
-  width: 0%;
-  background: #d2b36c;
-  transition: width .3s;
-}
-
-.content {
-  padding: 30px;
-}
-
-.tag {
-  display: inline-block;
-  background: #eaf0eb;
-  color: #345c56;
-  padding: 8px 13px;
-  border-radius: 20px;
-  margin-bottom: 12px;
-  font-weight: bold;
-}
-
-h2 {
-  color: #345c56;
-}
-
-p {
-  line-height: 1.8;
-}
-
-.timeline {
-  display: grid;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-.timeline-item {
-  padding: 13px;
-  background: #f7f4ec;
-  border-left: 4px solid #c7ad70;
-  line-height: 1.7;
-  border-radius: 7px;
-}
-
-.timeline-item strong {
-  color: #345c56;
-}
-
-.question {
-  margin-top: 25px;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.options {
-  display: grid;
-  gap: 10px;
-}
-
-button {
-  font-family: inherit;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.option {
-  background: white;
-  border: 2px solid #e4dfd3;
-  border-radius: 10px;
-  padding: 14px;
-  text-align: left;
-  width: 100%;
-}
-
-.option:hover:not(:disabled) {
-  border-color: #527a73;
-  background: #f5f8f5;
-}
-
-.option:disabled {
-  cursor: default;
-}
-
-.option.correct {
-  background: #edf6ef;
-  border-color: #397651;
-}
-
-.option.wrong {
-  background: #fbf0e6;
-  border-color: #a87951;
-}
-
-.feedback {
-  margin-top: 15px;
-  min-height: 25px;
-  line-height: 1.7;
-  font-weight: bold;
-}
-
-.good {
-  color: #397651;
-}
-
-.bad {
-  color: #80502e;
-}
-
-.controls {
-  margin-top: 20px;
-}
-
-.main-button {
-  background: #527a73;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 13px 20px;
-  font-weight: bold;
-}
-
-.main-button:hover {
-  background: #345c56;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.finish {
-  text-align: center;
-}
-
-.greeting {
-  padding: 20px;
-  margin: 20px 0;
-  border-radius: 14px;
-  background: #f2f1e5;
-  color: #345c56;
-  font-weight: bold;
-  line-height: 1.8;
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #6c716c;
-}
-
-@media(max-width: 480px) {
-  .content {
-    padding: 20px;
+  body {
+    margin: 0;
+    background-color: #121212;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
   }
-
-  .bar {
-    padding: 14px;
+  #hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 850px;
+    background: #1f1f2e;
+    padding: 10px 20px;
+    border-radius: 8px 8px 0 0;
+    border: 2px solid #e94560;
+    border-bottom: none;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  #game-container {
+    position: relative;
+    border: 4px solid #e94560;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 0 30px rgba(233, 69, 96, 0.4);
+  }
+  canvas {
+    display: block;
+    image-rendering: pixelated;
+  }
+  .modal {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1a1a2e;
+    border: 3px solid #f9ed69;
+    border-radius: 12px;
+    padding: 25px;
+    width: 540px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0,0,0,0.9);
+    z-index: 20;
+  }
+  .modal h2 { color: #f9ed69; margin-top: 0; font-size: 22px; }
+  .modal p { font-size: 16px; line-height: 1.6; color: #eaeaea; }
+  .btn {
+    background: #e94560;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 6px;
+    font-size: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+  .btn:hover { background: #ff2e63; transform: scale(1.03); }
+  .world-nav {
+    margin-bottom: 10px;
+  }
+  .world-btn {
+    background: #2b2e4a;
+    color: #fff;
+    border: 1px solid #53354a;
+    padding: 6px 14px;
+    margin: 0 4px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .world-btn.active { background: #e94560; border-color: #f9ed69; }
+  #controls-hint {
+    margin-top: 10px;
+    color: #a8dadc;
     font-size: 14px;
   }
-}
 </style>
 </head>
-
 <body>
 
-<div class="page">
-
-<header>
-  <h1>დედა ენის გზა</h1>
-  <p>გაეცანი ქართული ენის ისტორიას, უპასუხე კითხვებს და შეაგროვე ქულები!</p>
-</header>
-
-<div class="card">
-
-  <div class="bar">
-    <span id="stage">მზად ხარ?</span>
-    <span id="score">ქულა: 0</span>
-  </div>
-
-  <div class="progress">
-    <div id="progress"></div>
-  </div>
-
-  <div class="content" id="content"></div>
-
+<div class="world-nav">
+  <button class="world-btn active" onclick="loadWorld(0)">1. ანბანის სამყარო</button>
+  <button class="world-btn" onclick="loadWorld(1)">2. ისტორიის სამყარო</button>
+  <button class="world-btn" onclick="loadWorld(2)">3. ბუნების სამყარო</button>
+  <button class="world-btn" onclick="loadWorld(3)">4. ლიტერატურის სამყარო</button>
 </div>
 
-<footer>
-ქართული ენა ჩვენი ისტორიაა და ჩვენი მომავალი!
-</footer>
+<div id="hud">
+  <div id="worldTitle">🏰 სამყარო 1: ქართული ანბანი</div>
+  <div>
+    🪙 <span id="coins">0</span> | 
+    📚 <span id="books">0</span>/<span id="totalBooks">2</span> | 
+    ✨ ძალა: <span id="powerStatus">ჩვეულებრივი</span>
+  </div>
+</div>
 
+<div id="game-container">
+  <canvas id="gameCanvas" width="850" height="460"></canvas>
+
+  <!-- დიალოგის და ფაქტების ფანჯარა -->
+  <div id="infoModal" class="modal">
+    <h2 id="modalTitle">სათაური</h2>
+    <p id="modalText">ტექსტი</p>
+    <button class="btn" onclick="closeModal()">გაგრძელება (Enter)</button>
+  </div>
+
+  <!-- კარიბჭის ვიქტორინის ფანჯარა -->
+  <div id="quizModal" class="modal">
+    <h2>🚪 ცოდნის კარიბჭე — სამყაროს გამოცდა</h2>
+    <p id="quizQuestion">კითხვა</p>
+    <div id="quizOptions"></div>
+    <p id="quizFeedback" style="color: #f9ed69; font-weight: bold; min-height: 24px;"></p>
+  </div>
+</div>
+
+<div id="controls-hint">
+  მართვა: ⬅️ ➡️ მოძრაობა | ⬆️ / Space — ახტომა (მე-2 სამყაროდან: ორმაგი ნახტომი!) | მიუახლოვდი ასოებს და წიგნებს!
 </div>
 
 <script>
-"use strict";
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
-const lessons = [
-{
-  title: "ქართული ენის ისტორია",
-  tag: "ენის ევოლუცია",
-  text: "ქართული ენა ქართველურ ენათა ოჯახს ეკუთვნის. მას მრავალსაუკუნოვანი ისტორია აქვს. ძველი წარწერები და ხელნაწერები ქართული ენის ისტორიას გვიყვება.",
-  timeline: [
-    ["ქართული წარწერები", "ადრეული ქართული წარწერები V საუკუნიდან არის ცნობილი."],
-    ["დამწერლობა", "ქართული დამწერლობის სახეებია ასომთავრული, ნუსხური და მხედრული."],
-    ["მწერლობა", "ხელნაწერებმა და წიგნებმა ქართული ენა შემოგვინახა."],
-    ["ენა დღეს", "ქართული ენა დღესაც ვითარდება."]
-  ],
-  question: "რომელია ქართული დამწერლობის ერთ-ერთი სახე?",
-  options: ["ასომთავრული", "ლათინური", "არაბული"],
-  answer: 0,
-  explanation: "სწორია! ასომთავრული ქართული დამწერლობის ერთ-ერთი სახეა."
+let currentWorldIndex = 0;
+let coins = 0;
+let doubleJumpUnlocked = false;
+let jumpsLeft = 1;
+let gamePaused = false;
+let gameWon = false;
+
+const player = {
+  x: 40, y: 340, width: 30, height: 46,
+  vx: 0, vy: 0, speed: 4.5, jumpPower: -11,
+  grounded: false
+};
+
+const gravity = 0.5;
+const keys = {};
+
+// 4 სრული სამყაროს მონაცემები
+const worlds = [
+  {
+    name: "🏰 სამყარო 1: ქართული ანბანი (ლეველები 1-10)",
+    skyTop: "#1a1a2e", skyBottom: "#16213e", groundColor: "#393e46", platformColor: "#e94560",
+    decorType: "castle",
+    platforms: [
+      { x: 0, y: 400, w: 850, h: 60 },
+      { x: 150, y: 310, w: 140, h: 18 },
+      { x: 350, y: 230, w: 150, h: 18 },
+      { x: 560, y: 290, w: 140, h: 18 }
+    ],
+    letters: [
+      { char: 'ა', x: 180, y: 265, minX: 155, maxX: 260, dir: 1, talked: false,
+        title: 'მოლაპარაკე ასო „ა“',
+        text: 'გამარჯობა! მე ხმოვანი „ა“ ვარ. ქართულ ანბანში 5 ხმოვანია (ა, ე, ი, ო, უ) და 28 თანხმოვანი. იაკობ გოგებაშვილმა სწორედ ჩემით დაიწყო „დედაენა“!' },
+      { char: 'ი', x: 400, y: 185, minX: 360, maxX: 470, dir: -1, talked: false,
+        title: 'მოლაპარაკე ასო „ი“',
+        text: 'სალამი! მე და ასო „ა“-მ შევქმენით პირველი ქართული სასწავლო სიტყვა: „აი ია“. შეაგროვე წიგნები და გახსენი კარიბჭე!' }
+    ],
+    books: [
+      { x: 210, y: 275, collected: false, title: '📚 ცოდნის წიგნი: ანბანი',
+        text: 'იცოდი? ქართული ანბანი მსოფლიოს 14 უნიკალურ დამწერლობას შორისაა და იუნესკოს არამატერიალური კულტურული მემკვიდრეობის სიაშია!' },
+      { x: 610, y: 255, collected: false, title: '📚 ცოდნის წიგნი: დედაენა',
+        text: '„დედაენა“ პირველად 1876 წელს გამოიცა თბილისში. წელს მას 150 წელი უსრულდება!' }
+    ],
+    gate: { x: 770, y: 320, w: 50, h: 80 },
+    quiz: {
+      question: 'ასო „ა“ გეკითხება: სულ რამდენი ასოა თანამედროვე ქართულ ანბანში და რამდენია აქედან ხმოვანი?',
+      options: [
+        { text: 'ა) 33 ასო (5 ხმოვანი, 28 თანხმოვანი)', correct: true },
+        { text: 'ბ) 30 ასო (7 ხმოვანი, 23 თანხმოვანი)', correct: false },
+        { text: 'გ) 35 ასო (5 ხმოვანი, 30 თანხმოვანი)', correct: false }
+      ],
+      hint: 'ქართულ ანბანში 33 ასოა, ხმოვნები კი არის: ა, ე, ი, ო, უ.'
+    },
+    rewardText: 'შენ გაიარე ანბანის სამყარო! ჯილდოდ მიიღე სუპერძალა: ✨ ორმაგი ნახტომი (დააჭირე ახტომას ორჯერ ჰაერში)!'
+  },
+  {
+    name: "🏘️ სამყარო 2: საქართველოს ისტორია (ლეველები 11-20)",
+    skyTop: "#2c3e50", skyBottom: "#4ca1af", groundColor: "#5d4037", platformColor: "#d35400",
+    decorType: "village",
+    platforms: [
+      { x: 0, y: 400, w: 850, h: 60 },
+      { x: 140, y: 290, w: 130, h: 18 },
+      { x: 340, y: 190, w: 160, h: 18 },
+      { x: 570, y: 260, w: 130, h: 18 }
+    ],
+    letters: [
+      { char: 'დ', x: 170, y: 245, minX: 145, maxX: 240, dir: 1, talked: false,
+        title: 'მოლაპარაკე ასო „დ“ (დავით აღმაშენებელი)',
+        text: 'გამარჯობა, გმირო! მე მეფე დავით აღმაშენებლის სახელის პირველი ასო ვარ. 1121 წელს დიდგორის ბრძოლაში მოპოვებულმა გამარჯვებამ საქართველო გააერთიანა!' },
+      { char: 'თ', x: 390, y: 145, minX: 350, maxX: 470, dir: -1, talked: false,
+        title: 'მოლაპარაკე ასო „თ“ (თამარ მეფე)',
+        text: 'სალამი! მე თამარ მეფის ეპოქის მაცნე ვარ. სწორედ თამარის მეფობისას (XII საუკუნეში) შეიქმნა „ვეფხისტყაოსანი“ და აშენდა ვარძია.' }
+    ],
+    books: [
+      { x: 200, y: 255, collected: false, title: '📚 ისტორიის წიგნი: გელათი',
+        text: 'დავით აღმაშენებელმა 1106 წელს დააარსა გელათის აკადემია, რომელსაც „მეორე იერუსალიმსა და ახალ ათენს“ უწოდებდნენ.' },
+      { x: 610, y: 225, collected: false, title: '📚 ისტორიის წიგნი: იაკობ გოგებაშვილი',
+        text: 'იაკობ გოგებაშვილი დაიბადა სოფელ ვარიანში (გორის მუნიციპალიტეტი) 1840 წელს. მან მთელი სიცოცხლე ქართული სკოლისა და ენის დაცვას მიუძღვნა.' }
+    ],
+    gate: { x: 770, y: 320, w: 50, h: 80 },
+    quiz: {
+      question: 'ასო „დ“ გეკითხება: რომელ წელს გამოიცა პირველად იაკობ გოგებაშვილის „დედაენა“?',
+      options: [
+        { text: 'ა) 1876 წელს', correct: true },
+        { text: 'ბ) 1121 წელს', correct: false },
+        { text: 'გ) 1918 წელს', correct: false }
+      ],
+      hint: 'გაიხსენე პირველ სამყაროში ნანახი ცოდნის წიგნი — მე-19 საუკუნის 70-იანი წლები!'
+    },
+    rewardText: 'შესანიშნავია! შენ გადალახე საქართველოს ისტორიის სამყარო და მოიპოვე 100 ოქროს მონეტა!'
+  },
+  {
+    name: "🌲 სამყარო 3: საქართველოს ბუნება (ლეველები 21-30)",
+    skyTop: "#134e5e", skyBottom: "#71b280", groundColor: "#2d5a27", platformColor: "#f39c12",
+    decorType: "forest",
+    platforms: [
+      { x: 0, y: 400, w: 850, h: 60 },
+      { x: 130, y: 300, w: 140, h: 18 },
+      { x: 340, y: 210, w: 150, h: 18 },
+      { x: 560, y: 270, w: 140, h: 18 }
+    ],
+    letters: [
+      { char: 'ბ', x: 160, y: 255, minX: 135, maxX: 240, dir: 1, talked: false,
+        title: 'ტყის მცველი ასო „ბ“ (ბუნება)',
+        text: 'მოგესალმები ბუნების სამყაროში! საქართველოში 4000-ზე მეტი სახეობის მცენარე იზრდება. გაუფრთხილდი ტყეებს და არ დააბინძურო გარემო!' },
+      { char: 'მ', x: 390, y: 165, minX: 350, maxX: 460, dir: -1, talked: false,
+        title: 'მთის ასო „მ“ (მყინვარწვერი და შხარა)',
+        text: 'სალამი! საქართველოს უმაღლესი მწვერვალია შხარა (5193 მ), ხოლო მდინარე ალაზანი ყველაზე გრძელი მდინარეა!' }
+    ],
+    books: [
+      { x: 200, y: 265, collected: false, title: '📚 ბუნების წიგნი: წითელი ნუსხა',
+        text: 'საქართველოს წითელ ნუსხაში შეტანილია იშვიათი ცხოველები: კავკასიური ჯიხვი, არჩვი, მურა დათვი და ფოცხვერი.' },
+      { x: 610, y: 235, collected: false, title: '📚 ბუნების წიგნი: კოლხური ტყეები',
+        text: 'კოლხეთის ტყეები და ჭარბტენიანი ტერიტორიები იუნესკოს მსოფლიო ბუნებრივი მემკვიდრეობის ძეგლია!' }
+    ],
+    gate: { x: 770, y: 320, w: 50, h: 80 },
+    quiz: {
+      question: 'ასო „მ“ გეკითხება: რომელია საქართველოს უმაღლესი მწვერვალი?',
+      options: [
+        { text: 'ა) შხარა (5193 მ)', correct: true },
+        { text: 'ბ) მყინვარწვერი (5054 მ)', correct: false },
+        { text: 'გ) უშბა (4710 მ)', correct: false }
+      ],
+      hint: 'ის სვანეთში მდებარეობს და მისი სიმაღლე 5193 მეტრია.'
+    },
+    rewardText: 'ყოჩაღ! ბუნების მცველის წოდება შენია. წინ ბოლო — ლიტერატურის სამყარო გელოდება!'
+  },
+  {
+    name: "📖 სამყარო 4: ლიტერატურა და დედაენა (ლეველები 31-40)",
+    skyTop: "#240b36", skyBottom: "#c31432", groundColor: "#3e2723", platformColor: "#f9ed69",
+    decorType: "library",
+    platforms: [{ x: 0, y: 400, w: 850, h: 60 },
+{ x: 140, y: 290, w: 140, h: 18 },
+{ x: 350, y: 200, w: 150, h: 18 },
+{ x: 560, y: 270, w: 140, h: 18 }
+],
+letters: [
+{ char: 'შ', x: 170, y: 245, minX: 145, maxX: 250, dir: 1, talked: false,
+title: 'მოლაპარაკე ასო „შ“ (შოთა რუსთაველი)',
+text: 'გამარჯობა, მკითხველო! მე შოთა რუსთაველის სახელის ასო ვარ. „რაცა ვის რა ბედმან მისცეს, დასჯერდეს და მას უბნობდეს!“' },
+{ char: 'წ', x: 390, y: 155, minX: 360, maxX: 470, dir: -1, talked: false,
+title: 'მოლაპარაკე ასო „წ“ (წიგნი და ცოდნა)',
+text: 'წინ ფინალური კარიბჭეა! ჩააბარე მთავარი საიუბილეო გამოცდა და შეხვდი ქართული ანბანის ყველა ასოს!' }
+],
+books: [
+{ x: 210, y: 255, collected: false, title: '📚 ლიტერატურის წიგნი: გამოცანა',
+text: 'ქართული ხალხური გამოცანა: „უსულოა, უენოა, მაგრამ ყველას ელაპარაკება, ჭკუას გვასწავლის და გვართობს. რა არის?“ — პასუხი: წიგნი!' },
+{ x: 610, y: 235, collected: false, title: '📚 ლიტერატურის წიგნი: დედაენის საიდუმლო',
+text: '„დედაენაში“ თავმოყრილია ქართული ანდაზები, გამოცანები, ლექსები და მოთხრობები, რომლებზეც თაობები აღიზარდა.' }
+],
+gate: { x: 770, y: 320, w: 50, h: 80 },
+quiz: {
+question: 'ფინალური გამოცდა (ლეველი 40): ვის ეკუთვნის სიტყვები „დედაენა არის საფუძველი ეროვნული განათლებისა“?',
+options: [
+{ text: 'ა) იაკობ გოგებაშვილს', correct: true },
+{ text: 'ბ) ვაჟა-ფშაველას', correct: false },
+{ text: 'გ) აკაკი წერეთელს', correct: false }
+],
+hint: 'ის არის ქართული „დედაენის“ ავტორი!'
 },
-{
-  title: "არსებითი სახელი",
-  tag: "გრამატიკა",
-  question: "რომელია არსებითი სახელი?",
-  options: ["ლამაზი", "წიგნი", "კითხულობს"],
-  answer: 1,
-  explanation: "წიგნი საგნის სახელია და არსებითი სახელია."
-},
-{
-  title: "ზედსართავი სახელი",
-  tag: "გრამატიკა",
-  question: "რომელ წინადადებაშია ზედსართავი სახელი?",
-  options: [
-    "ბავშვი კითხულობს.",
-    "ლამაზი ყვავილი გაიშალა.",
-    "მზე ანათებს."
-  ],
-  answer: 1,
-  explanation: "ლამაზი ყვავილის ნიშანს აღნიშნავს."
-},
-{
-  title: "ზმნა",
-  tag: "გრამატიკა",
-  question: "რომელია ზმნა წინადადებაში: „ნინო ქართულად წერს“?",
-  options: ["ნინო", "ქართულად", "წერს"],
-  answer: 2,
-  explanation: "წერს მოქმედებას აღნიშნავს და ზმნაა."
-},
-{
-  title: "სწორი წერა",
-  tag: "მართლწერა",
-  question: "რომელი წინადადებაა სწორად დაწერილი?",
-  options: [
-    "მე მიყვარს ქართული ენა.",
-    "მე მიყვარს ქართულიენა.",
-    "მე მიყვარს ქართულ ენა."
-  ],
-  answer: 0,
-  explanation: "სწორია: მე მიყვარს ქართული ენა."
-},
-{
-  title: "ქვემდებარე",
-  tag: "გრამატიკა",
-  question: "წინადადებაში „მზე ანათებს“ რა ანათებს?",
-  options: ["მზე", "ანათებს", "სიტყვა არ არის"],
-  answer: 0,
-  explanation: "მზე წინადადების ქვემდებარეა."
-},
-{
-  title: "ქართული დამწერლობის ისტორია",
-  tag: "ენის ისტორია",
-  text: "ქართული დამწერლობა სამი ძირითადი სახით არის ცნობილი: ასომთავრული, ნუსხური და მხედრული. ასომთავრული უძველესია და V საუკუნიდან გვხვდება. ნუსხური IX საუკუნიდან ჩნდება და ძირითადად საეკლესიო ტექსტებში გამოიყენებოდა. მხედრული კი XI საუკუნიდან ფართოდ გავრცელდა და დღევანდელ ქართულ ანბანს უდევს საფუძვლად.",
-  timeline: [
-    ["ასომთავრული", "V საუკუნიდან — უძველესი ქართული დამწერლობა."],
-    ["ნუსხური", "IX საუკუნიდან — ძირითადად საეკლესიო მწერლობაში."],
-    ["მხედრული", "XI საუკუნიდან — დღევანდელი ანბანის საფუძველი."]
-  ],
-  question: "რომელი ქართული დამწერლობა უძველესია?",
-  options: ["მხედრული", "ნუსხური", "ასომთავრული"],
-  answer: 2,
-  explanation: "ასომთავრული უძველესია და V საუკუნიდან გვხვდება."
-},
-{
-  title: "ქართული ენის ოჯახი",
-  tag: "ენის ისტორია",
-  question: "რომელ ენათა ოჯახს ეკუთვნის ქართული ენა?",
-  options: ["ინდოევროპულს", "ქართველურ (ქართველურ) ენათა ოჯახს", "თურქულს"],
-  answer: 1,
-  explanation: "ქართული ქართველურ ენათა ოჯახის წევრია, სადაც შედის მეგრული, სვანური და ლაზური."
-},
-{
-  title: "ქართველური ენები",
-  tag: "ენის ისტორია",
-  question: "რომელი ენა არ შედის ქართველურ ენათა ოჯახში?",
-  options: ["მეგრული", "სვანური", "ოსური"],
-  answer: 2,
-  explanation: "ოსური ინდოევროპულ ენათა ოჯახს (ირანულ ჯგუფს) ეკუთვნის."
-},
-{
-  title: "ზმნის დროები",
-  tag: "გრამატიკა",
-  question: "რომელ დროშია ზმნა წინადადებაში „ხვალ წავიკითხავ წიგნს“?",
-  options: ["აწმყო", "წარსული", "მომავალი"],
-  answer: 2,
-  explanation: "„წავიკითხავ“ მომავალ დროს გამოხატავს — მოქმედება ჯერ არ მომხდარა."
-},
-{
-  title: "მხოლობითი და მრავლობითი",
-  tag: "გრამატიკა",
-  question: "რომელი სიტყვაა მრავლობით რიცხვში?",
-  options: ["ბავშვი", "ბავშვები", "ბავშვის"],
-  answer: 1,
-  explanation: "„ბავშვები“ მრავლობითი რიცხვის ფორმაა, სუფიქსი -ებ-."
-},
-{
-  title: "ბრუნვები",
-  tag: "გრამატიკა",
-  text: "ქართულში შვიდი ბრუნვაა: სახელობითი, ნათესაობითი, მიცემითი, ნაბრუნები, მოქმედებითი, ვითარებითი და წოდებითი. ბრუნვა განსაზღვრავს სიტყვის როლს წინადადებაში.",
-  timeline: [
-    ["სახელობითი", "ვინ? რა? — ქვემდებარის ბრუნვა."],
-    ["ნათესაობითი", "ვისი? რისი? — კუთვნილების ბრუნვა."],
-    ["მიცემითი", "ვის? რას? — ობიექტის ბრუნვა."],
-    ["სხვა ბრუნვები", "ნაბრუნები, მოქმედებითი, ვითარებითი, წოდებითი."]
-  ],
-  question: "რამდენი ბრუნვაა თანამედროვე ქართულ ენაში?",
-  options: ["ექვსი", "შვიდი", "რვა"],
-  answer: 1,
-  explanation: "ქართულში შვიდი ბრუნვაა: სახელობითი, ნათესაობითი, მიცემითი, ნაბრუნები, მოქმედებითი, ვითარებითი, წოდებითი."
-},
-{
-  title: "სახელობითი ბრუნვა",
-  tag: "გრამატიკა",
-  question: "რომელ კითხვაზე პასუხობს სახელობითი ბრუნვა?",
-  options: ["ვის? რას?", "ვინ? რა?", "ვისი? რისი?"],
-  answer: 1,
-  explanation: "სახელობითი ბრუნვა პასუხობს კითხვებზე „ვინ? რა?“ და ჩვეულებრივ ქვემდებარის ფუნქციას ასრულებს."
-},
-{
-  title: "ნათესაობითი ბრუნვა",
-  tag: "გრამატიკა",
-  question: "რომელ კითხვაზე პასუხობს ნათესაობითი ბრუნვა?",
-  options: ["ვისი? რისი?", "ვის? რას?", "რით?"],
-  answer: 0,
-  explanation: "ნათესაობითი ბრუნვა კუთვნილებას გამოხატავს და პასუხობს კითხვებზე „ვისი? რისი?“."
-},
-{
-  title: "მოქმედებითი ბრუნვა",
-  tag: "გრამატიკა",
-  question: "რომელ კითხვაზე პასუხობს მოქმედებითი ბრუნვა?",
-  options: ["ვისთვის?", "რით? ვით?", "სად?"],
-  answer: 1,
-  explanation: "მოქმედებითი ბრუნვა გამოხატავს მოქმედების იარაღს და პასუხობს კითხვებზე „რით? ვით?“."
-},
-{
-  title: "ვითარებითი ბრუნვა",
-  tag: "გრამატიკა",
-  question: "რომელი სიტყვაა ვითარებით ბრუნვაში?",
-  options: ["სახლი", "სახლად", "სახლით"],
-  answer: 1,
-  explanation: "„სახლად“ ვითარებითი ბრუნვაა — პასუხობს კითხვაზე „სად?“."
-},
-{
-  title: "წოდებითი ბრუნვა",
-  tag: "გრამატიკა",
-  question: "რომელ წინადადებაშია წოდებითი ბრუნვა?",
-  options: [
-    "ნინომ წიგნი წაიკითხა.",
-    "ნინო, მოდი აქ!",
-    "ნინოს წიგნი აქვს."
-  ],
-  answer: 1,
-  explanation: "„ნინო, მოდი აქ!“ — წოდებითი ბრუნვა მიმართვისას გამოიყენება."
-},
-{
-  title: "პირის ნაცვალსახელები",
-  tag: "გრამატიკა",
-  question: "რომელია პირველი პირის მრავლობითი ნაცვალსახელი?",
-  options: ["ისინი", "ჩვენ", "თქვენ"],
-  answer: 1,
-  explanation: "„ჩვენ“ პირველი პირის მრავლობითი ნაცვალსახელია."
-},
-{
-  title: "კუთვნილებითი ნაცვალსახელები",
-  tag: "გრამატიკა",
-  question: "რომელია კუთვნილებითი ნაცვალსახელი?",
-  options: ["მე", "ჩემი", "შენ"],
-  answer: 1,
-  explanation: "„ჩემი“ კუთვნილებას გამოხატავს და კუთვნილებითი ნაცვალსახელია."
-},
-{
-  title: "რიცხვითი სახელი",
-  tag: "გრამატიკა",
-  question: "რომელია რიგობითი რიცხვითი სახელი?",
-  options: ["სამი", "მესამე", "სამჯერ"],
-  answer: 1,
-  explanation: "„მესამე“ რიგობითი რიცხვითი სახელია, „სამი“ — რაოდენობითი."
-},
-{
-  title: "ზმნიზედა",
-  tag: "გრამატიკა",
-  question: "რომელი სიტყვაა ზმნიზედა?",
-  options: ["სწრაფად", "სწრაფი", "სიჩქარე"],
-  answer: 0,
-  explanation: "„სწრაფად“ ზმნიზედაა — აღნიშნავს მოქმედების ნიშანს."
-},
-{
-  title: "თანდებული",
-  tag: "გრამატიკა",
-  question: "რომელია თანდებული?",
-  options: ["და", "ზე", "თუ"],
-  answer: 1,
-  explanation: "„ზე“ თანდებულია; „და“ და „თუ“ კავშირებია."
-},
-{
-  title: "კავშირები",
-  tag: "გრამატიკა",
-  question: "რომელია დაქვემდებარებითი კავშირი?",
-  options: ["და", "რომ", "ან"],
-  answer: 1,
-  explanation: "„რომ“ დაქვემდებარებითი კავშირია; „და“ და „ან“ თანწყობითი კავშირებია."
-},
-{
-  title: "შორისდებული",
-  tag: "გრამატიკა",
-  question: "რომელი სიტყვაა შორისდებული?",
-  options: ["ვაჰ", "ვაშლი", "ვარდი"],
-  answer: 0,
-  explanation: "„ვაჰ“ გრძნობის გამომხატველი შორისდებულია."
-},
-{
-  title: "წინდებული და თანდებული",
-  tag: "გრამატიკა",
-  question: "ქართულ ენაში რომელია დამახასიათებელი — წინდებული თუ თანდებული?",
-  options: ["წინდებული", "თანდებული", "ორივე თანაბრად"],
-  answer: 1,
-  explanation: "ქართულში ძირითადად თანდებულები გამოიყენება (მაგ. „ზე“, „ში“, „თან“), წინდებულები არ არის."
-},
-{
-  title: "მართლწერა: ბგერა და ასო",
-  tag: "მართლწერა",
-  question: "რამდენი ასოა თანამედროვე ქართულ ანბანში?",
-  options: ["33", "38", "40"],
-  answer: 0,
-  explanation: "თანამედროვე ქართულ ანბანში 33 ასოა."
-},
-{
-  title: "მართლწერა: რთული სიტყვები",
-  tag: "მართლწერა",
-  question: "რომელი წერილობითი ფორმაა სწორი?",
-  options: ["საქართველო", "სა ქართველო", "საქართველო-"],
-  answer: 0,
-  explanation: "„საქართველო“ ერთად იწერება — ეს რთული (წარმოებული) სიტყვაა."
-},
-{
-  title: "მართლწერა: დიდი ასო",
-  tag: "მართლწერა",
-  question: "რომელი წინადადებაა სწორად დაწერილი?",
-  options: [
-    "თბილისი საქართველოს დედაქალაქია.",
-    "თბილისი საქართველოს დედაქალაქია",
-    "თბილისი საქართველოს დედაქალაქია.."
-  ],
-  answer: 0,
-  explanation: "წინადადება დიდი ასოთი იწყება და წერტილით მთავრდება."
-},
-{
-  title: "მართლწერა: „არ“-ის წერა",
-  tag: "მართლწერა",
-  question: "როგორ იწერება უარყოფითი ნაწილაკი ზმნასთან?",
-  options: ["ცალკე — „არ მოვიდა“", "ერთად — „არმოვიდა“", "ორივე სწორია"],
-  answer: 0,
-  explanation: "„არ“ ზმნისაგან ცალკე იწერება: „არ მოვიდა“."
-},
-{
-  title: "სიტყვის შედგენილობა",
-  tag: "გრამატიკა",
-  question: "სიტყვა „მწერალი“ როგორი წარმოებისაა?",
-  options: ["ძირითადი", "წარმოებული", "რთული"],
-  answer: 1,
-  explanation: "„მწერალი“ ფუძე „წერ“-იდან არის წარმოებული სუფიქსით -ალ-."
-},
-{
-  title: "სინონიმები",
-  tag: "ლექსიკა",
-  question: "რომელი სიტყვაა „ლამაზი“-ს სინონიმი?",
-  options: ["მახინჯი", "მშვენიერი", "პატარა"],
-  answer: 1,
-  explanation: "„მშვენიერი“ „ლამაზი“-ს სინონიმია — მნიშვნელობით ახლოსაა."
-},
-{
-  title: "ანტონიმები",
-  tag: "ლექსიკა",
-  question: "რომელია „მაღალი“-ს ანტონიმი?",
-  options: ["დაბალი", "გრძელი", "ფართო"],
-  answer: 0,
-  explanation: "„დაბალი“ „მაღალი“-ს საპირისპირო მნიშვნელობის სიტყვაა."
-},
-{
-  title: "ომონიმები",
-  tag: "ლექსიკა",
-  question: "რომელი სიტყვებია ომონიმები (ერთნაირად იწერება, სხვადასხვა მნიშვნელობა აქვს)?",
-  options: ["მთა — მთვარე", "კალამი — კალამი (საწერი და ლერწამი)", "წყალი — ცეცხლი"],
-  answer: 1,
-  explanation: "„კალამი“ ორივე მნიშვნელობით ერთნაირად იწერება — ეს ომონიმია."
-},
-{
-  title: "ფრაზეოლოგიზმები",
-  tag: "ლექსიკა",
-  question: "რას ნიშნავს ფრაზეოლოგიზმი „თვალს არ აშორებს“?",
-  options: ["თვალს იფარებს", "ყურადღებით უყურებს", "თვალს ახუჭავს"],
-  answer: 1,
-  explanation: "„თვალს არ აშორებს“ ნიშნავს, რომ ყურადღებით, განუწყვეტლივ უყურებს."
-},
-{
-  title: "ქართული ანბანის სიმბოლო",
-  tag: "ენის ისტორია",
-  question: "რა ერქვა ქართული ანბანის ერთ-ერთ უძველეს ფორმას, რომელიც V საუკუნიდან გვხვდება?",
-  options: ["მხედრული", "ასომთავრული", "ნუსხური"],
-  answer: 1,
-  explanation: "ასომთავრული V საუკუნიდან გვხვდება და უძველეს ქართულ დამწერლობად ითვლება."
-},
-{
-  title: "მწერლობის ძეგლი",
-  tag: "ენის ისტორია",
-  question: "რომელია ქართული მწერლობის ერთ-ერთი უძველესი ძეგლი?",
-  options: ["„ვეფხისტყაოსანი“", "ბოლნისის სიონის წარწერა", "„დიდი მოძღვარი“"],
-  answer: 1,
-  explanation: "ბოლნისის სიონის წარწერა V საუკუნისაა და ქართული მწერლობის ერთ-ერთ უძველეს ძეგლად ითვლება."
-},
-{
-  title: "დედაენის დღე",
-  tag: "ენის ისტორია",
-  question: "რომელ თარიღს აღნიშნავენ დედაენის დღედ?",
-  options: ["14 აპრილი", "26 მაისი", "9 აპრილი"],
-  answer: 0,
-  explanation: "14 აპრილი დედაენის დღეა — 1978 წლის 14 აპრილის მოვლენების ხსოვნას."
-},
-{
-  title: "იაკობ გოგებაშვილი",
-  tag: "ენის ისტორია",
-  question: "ვინ დაწერა სახელმძღვანელო „დედა ენა“?",
-  options: ["ილია ჭავჭავაძე", "იაკობ გოგებაშვილი", "აკაკი წერეთელი"],
-  answer: 1,
-  explanation: "„დედა ენა“ იაკობ გოგებაშვილმა დაწერა — ის ქართული პედაგოგიკისა და ანბანის სწავლების ფუძემდებელია."
-},
-{
-  title: "პირველი ქართული ბეჭდური წიგნი",
-  tag: "ენის ისტორია",
-  question: "სად დაიბეჭდა პირველი ქართული ბეჭდური წიგნი?",
-  options: ["თბილისში", "რომში", "მოსკოვში"],
-  answer: 1,
-  explanation: "პირველი ქართული ბეჭდური წიგნი 1629 წელს რომში დაიბეჭდა."
-},
-{
-  title: "ვეფხისტყაოსანი",
-  tag: "ლიტერატურა და ენა",
-  question: "ვინ არის „ვეფხისტყაოსნის“ ავტორი?",
-  options: ["შოთა რუსთაველი", "ილია ჭავჭავაძე", "ვაჟა-ფშაველა", "აკაკი წერეთელი"],
-  answer: 0,
-  explanation: "„ვეფხისტყაოსანი“ XII საუკუნის ქართველმა პოეტმა შოთა რუსთაველმა დაწერა."
-},
-{
-  title: "ქართული ენის სტატუსი",
-  tag: "ენის ისტორია",
-  question: "რა სტატუსი აქვს ქართულ ენას საქართველოში?",
-  options: ["რეგიონული ენა", "სახელმწიფო ენა", "უცხო ენა"],
-  answer: 1,
-  explanation: "საქართველოს კონსტიტუციით ქართული ენა სახელმწიფო ენაა."
-},
-{
-  title: "მართლწერა: წერტილი და მძიმე",
-  tag: "მართლწერა",
-  question: "რომელი წინადადებაა სწორად პუნქტუაციურად გაფორმებული?",
-  options: [
-    "დედა ენა ჩვენი სიმდიდრეა.",
-    "დედა ენა ჩვენი სიმდიდრეა,",
-    "დედა ენა, ჩვენი სიმდიდრეა"
-  ],
-  answer: 0,
-  explanation: "წინადადება წერტილით მთავრდება; მძიმე მხოლოდ საჭირო ადგილას ისმის."
-},
-{
-  title: "ბგერათა ჯგუფები",
-  tag: "გრამატიკა",
-  question: "რომელია ხმოვანი ბგერა?",
-  options: ["ბ", "ა", "ქ"],
-  answer: 1,
-  explanation: "„ა“ ხმოვანია, „ბ“ და „ქ“ — თანხმოვნები."
-},
-{
-  title: "ხმოვნების რაოდენობა",
-  tag: "გრამატიკა",
-  question: "რამდენი ხმოვანია ქართულ ენაში?",
-  options: ["5", "7", "10"],
-  answer: 0,
-  explanation: "ქართულში 5 ხმოვანია: ა, ე, ი, ო, უ."
-},
-{
-  title: "თანხმოვნების სიმრავლე",
-  tag: "გრამატიკა",
-  question: "რომელი სიტყვაა თანხმოვნების დიდი სიმრავლით ცნობილი ქართულში?",
-  options: ["გვფრცქვნი", "სახლი", "წყალი"],
-  answer: 0,
-  explanation: "„ვფრცქვნი“ ცნობილია თანხმოვნების სიმრავლით — რვა თანხმოვანი ზედიზედ."
-},
-{
-  title: "სიტყვათა რიგი წინადადებაში",
-  tag: "გრამატიკა",
-  question: "ქართულში წინადადების ჩვეულებრივი რიგი როგორია?",
-  options: ["ქვემდებარე — შემასმენელი — დამატება", "შემასმენელი — ქვემდებარე — დამატება", "დამატება — ქვემდებარე — შემასმენელი"],
-  answer: 0,
-  explanation: "ქართულში ჩვეულებრივ ქვემდებარე წინ უსწრებს შემასმენელს: „ბავშვი კითხულობს წიგნს“."
-},
-{
-  title: "შემასმენელი",
-  tag: "გრამატიკა",
-  question: "წინადადებაში „ნინო მასწავლებელია“ რა არის შემასმენელი?",
-  options: ["ნინო", "მასწავლებელია", "არცერთი"],
-  answer: 1,
-  explanation: "„მასწავლებელია“ შემასმენელია — გვიჩვენებს, ვინ არის ნინო."
-},
-{
-  title: "დამატება",
-  tag: "გრამატიკა",
-  question: "წინადადებაში „ბავშვი წიგნს კითხულობს“ რა არის დამატება?",
-  options: ["ბავშვი", "წიგნს", "კითხულობს"],
-  answer: 1,
-  explanation: "„წიგნს“ დამატებაა — აჩვენებს, რას კითხულობს ბავშვი."
-},
-{
-  title: "გარემოება",
-  tag: "გრამატიკა",
-  question: "წინადადებაში „ნინო სკოლაში მიდის“ რა არის გარემოება?",
-  options: ["ნინო", "სკოლაში", "მიდის"],
-  answer: 1,
-  explanation: "„სკოლაში“ გარემოებაა — აჩვენებს, სად მიდის ნინო."
-},
-{
-  title: "მრავლობითის სუფიქსი",
-  tag: "გრამატიკა",
-  question: "რომელი სუფიქსი გამოხატავს მრავლობით რიცხვს ქართულში?",
-  options: ["-ებ-", "-ურ-", "-ობ-"],
-  answer: 0,
-  explanation: "მრავლობითი რიცხვი ძირითადად -ებ- სუფიქსით გამოიხატება: ბავშვი — ბავშვები."
-},
-{
-  title: "კითხვითი ნაწილაკი",
-  tag: "გრამატიკა",
-  question: "რომელი ნაწილაკი გამოიყენება კითხვით წინადადებაში?",
-  options: ["ნუთუ", "თითქოს", "კი"],
-  answer: 0,
-  explanation: "„ნუთუ“ კითხვითი ნაწილაკია: „ნუთუ მართლა ასეა?“"
-},
-{
-  title: "უარყოფითი ნაწილაკი",
-  tag: "გრამატიკა",
-  question: "რომელია უარყოფითი ნაწილაკი?",
-  options: ["არ", "თუ", "და"],
-  answer: 0,
-  explanation: "„არ“ უარყოფითი ნაწილაკია."
-},
-{
-  title: "სიტყვათა წარმოება",
-  tag: "გრამატიკა",
-  question: "სიტყვა „მასწავლებელი“ როგორი წარმოებისაა?",
-  options: ["ძირითადი", "წარმოებული", "რთული"],
-  answer: 1,
-  explanation: "„მასწავლებელი“ სიტყვა „სწავლა“-დან არის წარმოებული — პრეფიქსითა და სუფიქსით."
-},
-{
-  title: "ლექსიკური მარაგი",
-  tag: "ლექსიკა",
-  question: "რომელი სიტყვაა ნასესხები ქართულში?",
-  options: ["წყალი", "ტელეფონი", "მთა"],
-  answer: 1,
-  explanation: "„ტელეფონი“ ბერძნული წარმოშობის საერთაშორისო სიტყვაა და ნასესხებია."
-},
-{
-  title: "დიალექტები",
-  tag: "ენის ისტორია",
-  question: "რომელია ქართული ენის დიალექტი?",
-  options: ["კახური", "ინგლისური", "რუსული"],
-  answer: 0,
-  explanation: "კახური ქართული ენის დიალექტია; ინგლისური და რუსული ცალკე ენებია."
-},
-{
-  title: "ენის დაცვა",
-  tag: "ენის ისტორია",
-  question: "რა არის ქართული ენის დაცვის მთავარი გზა?",
-  options: [
-    "მხოლოდ უცხო სიტყვების გამოყენება",
-    "ქართული სიტყვების, წიგნიერებისა და კითხვის გავრცელება",
-    "ენის სრული უარყოფა"
-  ],
-  answer: 1,
-  explanation: "ენის დაცვა ნიშნავს ქართული სიტყვის, კითხვისა და წიგნიერების გავრცელებას."
+rewardText: ''
 }
 ];
-
-const content = document.getElementById("content");
-const stage = document.getElementById("stage");
-const score = document.getElementById("score");
-const progress = document.getElementById("progress");
-
-let current = 0;
-let points = 0;
-let answered = false;
-
-function makeButton(text, className, action) {
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.textContent = text;
-  btn.className = className;
-  btn.addEventListener("click", action);
-  return btn;
+let currentWorld = JSON.parse(JSON.stringify(worlds[0]));
+function loadWorld(index) {
+currentWorldIndex = index;
+currentWorld = JSON.parse(JSON.stringify(worlds[index]));
+player.x = 40;
+player.y = 340;
+player.vx = 0;
+player.vy = 0;
+gameWon = false;
+gamePaused = false;
+if (index >= 1) {
+doubleJumpUnlocked = true;
+document.getElementById('powerStatus').innerText = '✨ ორმაგი ნახტომი';
 }
-
-function updateScore() {
-  score.textContent = "ქულა: " + points;
+document.getElementById('worldTitle').innerText = currentWorld.name;
+document.getElementById('books').innerText = 0;
+document.getElementById('totalBooks').innerText = currentWorld.books.length;
+document.querySelectorAll('.world-btn').forEach((btn, idx) => {
+btn.classList.toggle('active', idx === index);
+});
 }
-
-function showIntro() {
-  stage.textContent = "მზად ხარ?";
-  progress.style.width = "0%";
-  content.replaceChildren();
-
-  const tag = document.createElement("span");
-  tag.className = "tag";
-  tag.textContent = "დაიწყე თამაში";
-
-  const title = document.createElement("h2");
-  title.textContent = "აღმოაჩინე ქართული ენა";
-
-  const description = document.createElement("p");
-  description.textContent =
-    "გაეცანი ქართული ენის ისტორიას და უპასუხე გრამატიკის კითხვებს. თითოეული სწორი პასუხი ერთ ქულას მოგიტანს.";
-
-  const controls = document.createElement("div");
-  controls.className = "controls";
-
-  controls.appendChild(
-    makeButton("თამაშის დაწყება", "main-button", startGame)
-  );
-
-  content.append(tag, title, description, controls);
+window.addEventListener('keydown', e => {
+keys[e.code] = true;
+if ((e.code === 'ArrowUp' || e.code === 'Space') && !gamePaused && !gameWon) {
+if (player.grounded) {
+player.vy = player.jumpPower;
+player.grounded = false;
+jumpsLeft = doubleJumpUnlocked ? 1 : 0;
+} else if (jumpsLeft > 0) {
+player.vy = player.jumpPower * 0.9;
+jumpsLeft--;
 }
-
-function startGame() {
-  current = 0;
-  points = 0;
-  answered = false;
-  updateScore();
-  showLesson();
 }
-
-function showLesson() {
-  answered = false;
-
-  const lesson = lessons[current];
-
-  stage.textContent =
-    "ეტაპი " + (current + 1) + " / " + lessons.length;
-
-  progress.style.width =
-    (current / lessons.length * 100) + "%";
-
-  content.replaceChildren();
-
-  const tag = document.createElement("span");
-  tag.className = "tag";
-  tag.textContent = lesson.tag;
-
-  const title = document.createElement("h2");
-  title.textContent = lesson.title;
-
-  content.append(tag, title);
-
-  if (lesson.text) {
-    const paragraph = document.createElement("p");
-    paragraph.textContent = lesson.text;
-    content.appendChild(paragraph);
-  }
-
-  if (lesson.timeline) {
-    const timeline = document.createElement("div");
-    timeline.className = "timeline";
-
-    lesson.timeline.forEach(function(item) {
-      const box = document.createElement("div");
-      box.className = "timeline-item";
-
-      const strong = document.createElement("strong");
-      strong.textContent = item[0] + " — ";
-
-      box.append(
-        strong,
-        document.createTextNode(item[1])
-      );
-
-      timeline.appendChild(box);
-    });
-
-    content.appendChild(timeline);
-  }
-
-  const question = document.createElement("p");
-  question.className = "question";
-  question.textContent = lesson.question;
-
-  const options = document.createElement("div");
-  options.className = "options";
-
-  const feedback = document.createElement("div");
-  feedback.className = "feedback";
-  feedback.setAttribute("aria-live", "polite");
-
-  const controls = document.createElement("div");
-  controls.className = "controls";
-
-  const next = makeButton(
-    current === lessons.length - 1
-      ? "შედეგის ნახვა"
-      : "შემდეგი ეტაპი",
-    "main-button hidden",
-    nextLesson
-  );
-
-  lesson.options.forEach(function(answerText, index) {
-    const answerButton = makeButton(
-      answerText,
-      "option",
-      function() {
-        if (answered) return;
-
-        answered = true;
-
-        const allOptions = options.querySelectorAll("button");
-
-        allOptions.forEach(function(btn) {
-          btn.disabled = true;
-        });
-
-        if (index === lesson.answer) {
-          points++;
-          answerButton.classList.add("correct");
-
-          feedback.textContent = "✓ " + lesson.explanation;
-          feedback.className = "feedback good";
-        } else {
-          answerButton.classList.add("wrong");
-          allOptions[lesson.answer].classList.add("correct");
-
-          feedback.textContent =
-            "არაუშავს! სწორი პასუხია: " +
-            lesson.options[lesson.answer] +
-            ". " + lesson.explanation;
-
-          feedback.className = "feedback bad";
-        }
-
-        updateScore();
-        next.classList.remove("hidden");
-      }
-    );
-
-    options.appendChild(answerButton);
-  });
-
-  controls.appendChild(next);
-
-  content.append(
-    question,
-    options,
-    feedback,
-    controls
-  );
+if (e.code === 'Enter' && document.getElementById('infoModal').style.display === 'block') {
+closeModal();
 }
-
-function nextLesson() {
-  current++;
-
-  if (current >= lessons.length) {
-    showFinish();
-  } else {
-    showLesson();
-  }
+});
+window.addEventListener('keyup', e => keys[e.code] = false);
+function showModal(title, text) {
+gamePaused = true;
+document.getElementById('modalTitle').innerText = title;
+document.getElementById('modalText').innerText = text;
+document.getElementById('infoModal').style.display = 'block';
 }
-
-function showFinish() {
-  stage.textContent = "თამაში დასრულებულია";
-  progress.style.width = "100%";
-  content.replaceChildren();
-
-  const finish = document.createElement("div");
-  finish.className = "finish";
-
-  const title = document.createElement("h2");
-  title.textContent = "გილოცავ თამაშის დასრულებას!";
-
-  const result = document.createElement("p");
-  result.textContent =
-    "შენ დააგროვე " + points + " ქულა " +
-    lessons.length + "-დან.";
-
-  const greeting = document.createElement("div");
-  greeting.className = "greeting";
-  greeting.textContent =
-    "გილოცავთ დედაენის 150 წლის იუბილეს! " +
-    "ვუფრთხილდეთ ქართულ ენას — ჩვენს სიტყვას, ისტორიასა და მომავალს.";
-
-  const restart = makeButton(
-    "თავიდან თამაში",
-    "main-button",
-    startGame
-  );
-
-  finish.append(title, result, greeting, restart);
-  content.appendChild(finish);
+function closeModal() {
+document.getElementById('infoModal').style.display = 'none';
+gamePaused = false;
 }
-
-showIntro();
-updateScore();
-
-</script>
-
-</body>
-</html>
+function openQuiz() {
+gamePaused = true;
+const modal = document.getElementById('quizModal');
+document.getElementById('quizQuestion').innerText = currentWorld.quiz.question;
+document.getElementById('quizFeedback').innerText = '';
+const optionsDiv = document.getElementById('quizOptions');
+optionsDiv.innerHTML = '';
+currentWorld.quiz.options.forEach(opt => {
+const btn = document.createElement('button');
+btn.className = 'btn';
+btn.innerText = opt.text;
+btn.onclick = () => checkAnswer(opt.correct);
+optionsDiv.appendChild(btn);
+});
+modal.style.display = 'block';
+}
+function checkAnswer(isCorrect) {
+const feedback = document.getElementById('quizFeedback');
+if (isCorrect) {
+coins += 100;
+document.getElementById('coins').innerText = coins;
+document.getElementById('quizModal').style.display = 'none';
+if (currentWorldIndex < worlds.length - 1) {
+const rewardMsg = currentWorld.rewardText;
+loadWorld(currentWorldIndex + 1);
+showModal('🎉 სამყარო წარმატებით გაიარე!', rewardMsg);
+} else {
+gameWon = true;
+gamePaused = false;
+}
+} else {
+feedback.innerText = '❌ სცადე კიდევ ერთხელ! მინიშნება: ' + currentWorld.quiz.hint;
+}
+}
+function update() {
+if (gamePaused || gameWon) return;
+if (keys['ArrowLeft']) player.vx = -player.speed;
+else if (keys['ArrowRight']) player.vx = player.speed;
+else player.vx = 0;
+player.vy += gravity;
+player.x += player.vx;
+player.y += player.vy;
+if (player.x < 0) player.x = 0;
+if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+player.grounded = false;
+currentWorld.platforms.forEach(p => {
+if (player.x < p.x + p.w && player.x + player.width > p.x &&
+player.y + player.height > p.y && player.y + player.height - player.vy <= p.y) {
+player.y = p.y - player.height;
+player.vy = 0;
+player.grounded = true;
+jumpsLeft = doubleJumpUnlocked ? 1 : 0;
+}
+});
+// მოსიარულე ასოები
+currentWorld.letters.forEach(l => {
+l.x += l.dir * 0.8;
+if (l.x > l.maxX || l.x < l.minX) l.dir *= -1;
+if (!l.talked && Math.abs(player.x - l.x) < 35 && Math.abs(player.y - l.y) < 40) {
+l.talked = true;
+coins += 25;
+document.getElementById('coins').innerText = coins;
+showModal(l.title, l.text);
+}
+});
+// ცოდნის წიგნები
+currentWorld.books.forEach(b => {
+if (!b.collected && Math.abs(player.x - b.x) < 35 && Math.abs(player.y - b.y) < 40) {
+b.collected = true;
+const collectedCount = currentWorld.books.filter(item => item.collected).length;
+coins += 30;
+document.getElementById('books').innerText = collectedCount;
+document.getElementById('coins').innerText = coins;
+showModal(b.title, b.text);
+}
+});
+// კარიბჭე
+const g = currentWorld.gate;
+if (player.x + player.width > g.x && player.y + player.height > g.y) {
+player.x = g.x - player.width - 5;
+openQuiz();
+}
+}
+function drawBackgroundDecor() {
+const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+grad.addColorStop(0, currentWorld.skyTop);
+grad.addColorStop(1, currentWorld.skyBottom);
+ctx.fillStyle = grad;
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+// სამყაროს შესაბამისი ფონის ელემენტები
+ctx.fillStyle = "rgba(255,255,255,0.08)";
+if (currentWorld.decorType === "castle") {
+ctx.fillRect(60, 180, 90, 220);
+ctx.fillRect(50, 160, 25, 20);
+ctx.fillRect(92, 160, 25, 20);
+ctx.fillRect(135, 160, 25, 20);
+} else if (currentWorld.decorType === "village") {
+ctx.fillRect(80, 240, 70, 160); // კოშკი
+ctx.beginPath(); ctx.moveTo(75, 240); ctx.lineTo(115, 200); ctx.lineTo(155, 240); ctx.fill();
+} else if (currentWorld.decorType === "forest") {
+ctx.beginPath(); ctx.moveTo(100, 400); ctx.lineTo(250, 150); ctx.lineTo(400, 400); ctx.fill();
+} else if (currentWorld.decorType === "library") {
+for (let i = 0; i < 5; i++) {
+ctx.fillRect(70 + i * 150, 100, 40, 300); // სვეტები
+}
+}
+}
+function draw() {
+drawBackgroundDecor();
+// პლატფორმები
+currentWorld.platforms.forEach((p, idx) => {
+ctx.fillStyle = idx === 0 ? currentWorld.groundColor : currentWorld.platformColor;
+ctx.fillRect(p.x, p.y, p.w, p.h);
+});
+// წიგნები
+currentWorld.books.forEach(b => {
+if (!b.collected) {
+ctx.fillStyle = '#00adb5';
+ctx.fillRect(b.x, b.y, 26, 28);
+ctx.fillStyle = '#fff';
+ctx.font = '18px Arial';
+ctx.fillText('📖', b.x + 2, b.y + 21);
+}
+});
+// მოსიარულე ასოები
+currentWorld.letters.forEach(l => {
+ctx.fillStyle = '#f9ed69';
+ctx.font = 'bold 38px serif';
+ctx.fillText(l.char, l.x, l.y + 32);
+ctx.fillStyle = '#000';
+ctx.fillRect(l.x + 8, l.y + 14, 3, 3);
+ctx.fillRect(l.x + 16, l.y + 14, 3, 3);
+});
+// კარიბჭე
+const g = currentWorld.gate;
+ctx.fillStyle = '#e94560';
+ctx.fillRect(g.x, g.y, g.w, g.h);
+ctx.strokeStyle = '#f9ed69';
+ctx.lineWidth = 3;
+ctx.strokeRect(g.x, g.y, g.w, g.h);
+ctx.fillStyle = '#fff';
+ctx.font = 'bold 13px sans-serif';
+ctx.fillText('კარიბჭე', g.x + 1, g.y - 8);
+// მოთამაშე
+ctx.fillStyle = '#ff2e63';
+ctx.fillRect(player.x, player.y, player.width, player.height);
+ctx.fillStyle = '#fce38a';
+ctx.fillRect(player.x + 5, player.y + 5, 20, 15);
+ctx.fillStyle = '#000';
+ctx.fillRect(player.x + 18, player.y + 9, 3, 3);
+// საიუბილეო ფინალი
+if (gameWon) {
+ctx.fillStyle = 'rgba(18, 18, 35, 0.95)';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillStyle = '#f9ed69';
+ctx.font = 'bold 28px sans-serif';
+ctx.textAlign = 'center';
+ctx.fillText('🎉 გილოცავთ! დედაენის 150 წლის იუბილე! 🎉', canvas.width / 2, 75);
+ctx.fillStyle = '#fff';
+ctx.font = '18px sans-serif';
+ctx.fillText('შენ გაიარე ოთხივე სამყარო! ქართული ანბანის 33-ვე ასო გილოცავს გამარჯვებას!', canvas.width / 2, 115);
+const alphabet = 'აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ'.split('');
+ctx.fillStyle = '#4ecca3';
+ctx.font = 'bold 28px serif';
+alphabet.forEach((letter, index) => {
+const col = index % 11;
+const row = Math.floor(index / 11);
+const lx = 155 + col * 54;
+const ly = 190 + row * 60 + Math.sin(Date.now() / 180 + index) * 6;
+ctx.fillText(letter, lx, ly);
+});
+ctx.fillStyle = '#f9ed69';
+ctx.font = 'bold 22px sans-serif';
+ctx.fillText("🏆 მოპოვებული წოდება: „დედაენის მცველი | სულ ქულა: ${coins} 🪙, canvas.width / 2, 405");
+ctx.textAlign = 'left';
+}
+}
+function gameLoop() {
+update();
+draw();
+requestAnimationFrame(gameLoop);
+}
+loadWorld(0);
+gameLoop();
