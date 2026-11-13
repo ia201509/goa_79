@@ -2,43 +2,46 @@
 <html lang="ka">
 <head>
 <meta charset="UTF-8">
-<title>დედაენა 150 - ოთხი სამყაროს მოგზაურობა</title>
+<title>დედაენა 150 - 30 დონიანი ეპიკური 3D თამაში</title>
 <style>
   body {
     margin: 0;
-    background-color: #121212;
+    background-color: #010103;
     color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    overflow: hidden;
   }
   #hud {
+    position: absolute;
+    top: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 850px;
-    background: #1f1f2e;
+    width: 940px;
+    background: rgba(10, 10, 18, 0.95);
+    backdrop-filter: blur(20px);
     padding: 10px 20px;
-    border-radius: 8px 8px 0 0;
-    border: 2px solid #e94560;
-    border-bottom: none;
+    border-radius: 14px;
+    border: 2px solid #38bdf8;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
+    z-index: 10;
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
   }
   #game-container {
+    width: 940px;
+    height: 460px;
     position: relative;
-    border: 4px solid #e94560;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 0 30px rgba(233, 69, 96, 0.4);
-  }
-  canvas {
-    display: block;
-    image-rendering: pixelated;
+    border: 4px solid #38bdf8;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 0 80px rgba(56, 189, 248, 0.6);
   }
   .modal {
     display: none;
@@ -46,62 +49,71 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #1a1a2e;
-    border: 3px solid #f9ed69;
-    border-radius: 12px;
-    padding: 25px;
+    background: rgba(8, 8, 15, 0.98);
+    backdrop-filter: blur(25px);
+    border: 3px solid #facc15;
+    border-radius: 18px;
+    padding: 30px;
     width: 540px;
     text-align: center;
-    box-shadow: 0 0 40px rgba(0,0,0,0.9);
+    box-shadow: 0 0 100px rgba(0,0,0,0.99);
     z-index: 20;
   }
-  .modal h2 { color: #f9ed69; margin-top: 0; font-size: 22px; }
-  .modal p { font-size: 16px; line-height: 1.6; color: #eaeaea; }
+  .modal h2 { color: #facc15; margin-top: 0; font-size: 22px; text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
+  .modal p { font-size: 15px; line-height: 1.6; color: #f1f5f9; }
   .btn {
-    background: #e94560;
+    background: linear-gradient(135deg, #0284c7, #2563eb);
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 22px;
     margin: 6px;
-    font-size: 15px;
-    border-radius: 6px;
+    font-size: 14px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    transition: 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0 4px 18px rgba(37, 99, 235, 0.6);
   }
-  .btn:hover { background: #ff2e63; transform: scale(1.03); }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(37, 99, 235, 0.9); }
   .world-nav {
-    margin-bottom: 10px;
+    position: absolute;
+    top: 68px;
+    display: flex;
+    gap: 3px;
+    z-index: 10;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 940px;
+    max-height: 45px;
+    overflow-y: auto;
   }
   .world-btn {
-    background: #2b2e4a;
-    color: #fff;
-    border: 1px solid #53354a;
-    padding: 6px 14px;
-    margin: 0 4px;
-    border-radius: 5px;
+    background: rgba(15, 23, 42, 0.9);
+    color: #cbd5e1;
+    border: 1px solid #38bdf8;
+    padding: 3px 6px;
+    border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 9px;
+    transition: 0.2s;
   }
-  .world-btn.active { background: #e94560; border-color: #f9ed69; }
+  .world-btn.active { background: #0284c7; color: #fff; border-color: #facc15; box-shadow: 0 0 15px rgba(2, 132, 199, 0.8); }
   #controls-hint {
     margin-top: 10px;
-    color: #a8dadc;
-    font-size: 14px;
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 500;
   }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-<div class="world-nav">
-  <button class="world-btn active" onclick="loadWorld(0)">1. ანბანის სამყარო</button>
-  <button class="world-btn" onclick="loadWorld(1)">2. ისტორიის სამყარო</button>
-  <button class="world-btn" onclick="loadWorld(2)">3. ბუნების სამყარო</button>
-  <button class="world-btn" onclick="loadWorld(3)">4. ლიტერატურის სამყარო</button>
-</div>
+<div class="world-nav" id="navContainer"></div>
 
 <div id="hud">
-  <div id="worldTitle">🏰 სამყარო 1: ქართული ანბანი</div>
+  <div id="worldTitle" style="color: #facc15;">🏰 დონე 1: ვარიანი</div>
   <div>
     🪙 <span id="coins">0</span> | 
     📚 <span id="books">0</span>/<span id="totalBooks">2</span> | 
@@ -110,423 +122,620 @@
 </div>
 
 <div id="game-container">
-  <canvas id="gameCanvas" width="850" height="460"></canvas>
-
-  <!-- დიალოგის და ფაქტების ფანჯარა -->
   <div id="infoModal" class="modal">
     <h2 id="modalTitle">სათაური</h2>
     <p id="modalText">ტექსტი</p>
     <button class="btn" onclick="closeModal()">გაგრძელება (Enter)</button>
   </div>
 
-  <!-- კარიბჭის ვიქტორინის ფანჯარა -->
   <div id="quizModal" class="modal">
-    <h2>🚪 ცოდნის კარიბჭე — სამყაროს გამოცდა</h2>
+    <h2>🚪 ცოდნის კარიბჭე</h2>
     <p id="quizQuestion">კითხვა</p>
     <div id="quizOptions"></div>
-    <p id="quizFeedback" style="color: #f9ed69; font-weight: bold; min-height: 24px;"></p>
+    <p id="quizFeedback" style="color: #facc15; font-weight: bold; min-height: 24px; margin-top: 10px;"></p>
   </div>
 </div>
 
 <div id="controls-hint">
-  მართვა: ⬅️ ➡️ მოძრაობა | ⬆️ / Space — ახტომა (მე-2 სამყაროდან: ორმაგი ნახტომი!) | მიუახლოვდი ასოებს და წიგნებს!
+  მართვა: ⬅️ ➡️ მოძრაობა | ⬆️ / Space — ახტომა (ორმაგი ნახტომი მე-2 დონიდან!)
 </div>
 
 <script>
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-
+let scene, camera, renderer;
 let currentWorldIndex = 0;
 let coins = 0;
 let doubleJumpUnlocked = false;
 let jumpsLeft = 1;
 let gamePaused = false;
 let gameWon = false;
+let fontLoaded = false;
+let font = null;
+
+let playerGroup, leftLeg, rightLeg;
+let legAnimTime = 0;
 
 const player = {
-  x: 40, y: 340, width: 30, height: 46,
-  vx: 0, vy: 0, speed: 4.5, jumpPower: -11,
+  x: -8, y: -2, z: 0,
+  vx: 0, vy: 0, speed: 0.12, jumpPower: 0.22,
+  width: 0.7, height: 1.5,
   grounded: false
 };
 
-const gravity = 0.5;
+const gravity = 0.01;
 const keys = {};
 
-// 4 სრული სამყაროს მონაცემები
-const worlds = [
-  {
-    name: "🏰 სამყარო 1: ქართული ანბანი (ლეველები 1-10)",
-    skyTop: "#1a1a2e", skyBottom: "#16213e", groundColor: "#393e46", platformColor: "#e94560",
-    decorType: "castle",
-    platforms: [
-      { x: 0, y: 400, w: 850, h: 60 },
-      { x: 150, y: 310, w: 140, h: 18 },
-      { x: 350, y: 230, w: 150, h: 18 },
-      { x: 560, y: 290, w: 140, h: 18 }
-    ],
-    letters: [
-      { char: 'ა', x: 180, y: 265, minX: 155, maxX: 260, dir: 1, talked: false,
-        title: 'მოლაპარაკე ასო „ა“',
-        text: 'გამარჯობა! მე ხმოვანი „ა“ ვარ. ქართულ ანბანში 5 ხმოვანია (ა, ე, ი, ო, უ) და 28 თანხმოვანი. იაკობ გოგებაშვილმა სწორედ ჩემით დაიწყო „დედაენა“!' },
-      { char: 'ი', x: 400, y: 185, minX: 360, maxX: 470, dir: -1, talked: false,
-        title: 'მოლაპარაკე ასო „ი“',
-        text: 'სალამი! მე და ასო „ა“-მ შევქმენით პირველი ქართული სასწავლო სიტყვა: „აი ია“. შეაგროვე წიგნები და გახსენი კარიბჭე!' }
-    ],
-    books: [
-      { x: 210, y: 275, collected: false, title: '📚 ცოდნის წიგნი: ანბანი',
-        text: 'იცოდი? ქართული ანბანი მსოფლიოს 14 უნიკალურ დამწერლობას შორისაა და იუნესკოს არამატერიალური კულტურული მემკვიდრეობის სიაშია!' },
-      { x: 610, y: 255, collected: false, title: '📚 ცოდნის წიგნი: დედაენა',
-        text: '„დედაენა“ პირველად 1876 წელს გამოიცა თბილისში. წელს მას 150 წელი უსრულდება!' }
-    ],
-    gate: { x: 770, y: 320, w: 50, h: 80 },
-    quiz: {
-      question: 'ასო „ა“ გეკითხება: სულ რამდენი ასოა თანამედროვე ქართულ ანბანში და რამდენია აქედან ხმოვანი?',
+let platformMeshes = [];
+let itemMeshes = [];
+let gateMesh;
+
+const alphabets = ['ა', 'ბ', 'გ', 'დ', 'ე', 'ვ', 'ზ', 'თ', 'ი', 'კ', 'ლ', 'მ', 'ნ', 'ო', 'პ', 'ჟ', 'რ', 'ს', 'ტ', 'უ', 'ფ', 'ქ', 'ღ', 'ყ', 'შ', 'ჩ', 'ც', 'ძ', 'წ', 'ჭ'];
+const worlds = [];
+
+for (let i = 1; i <= 30; i++) {
+  let isEven = (i % 2 === 0);
+  let isFinal = (i === 30);
+
+  let worldName, quizData, letterText, bookText;
+
+  if (isFinal) {
+    worldName = "🎉 დონე 30: 150 წლის საიუბილეო ფინალი!";
+    letterText = "🎉 გილოცავთ! „დედაენას“ 150 წელი უსრულდება! ეს არის წიგნი, რომელმაც ქართული სული და ენა თაობებს შეუნარჩუნა!";
+    bookText = "🇬🇪 გილოცავთ დედაენის 150 წლის იუბილეს!";
+    quizData = {
+      question: "რომელ წელს გამოიცა პირველად იაკობის „დედაენა“?",
       options: [
-        { text: 'ა) 33 ასო (5 ხმოვანი, 28 თანხმოვანი)', correct: true },
-        { text: 'ბ) 30 ასო (7 ხმოვანი, 23 თანხმოვანი)', correct: false },
-        { text: 'გ) 35 ასო (5 ხმოვანი, 30 თანხმოვანი)', correct: false }
+        { text: "ა) 1876 წელს", correct: true },
+        { text: "ბ) 1921 წელს", correct: false }
       ],
-      hint: 'ქართულ ანბანში 33 ასოა, ხმოვნები კი არის: ა, ე, ი, ო, უ.'
-    },
-    rewardText: 'შენ გაიარე ანბანის სამყარო! ჯილდოდ მიიღე სუპერძალა: ✨ ორმაგი ნახტომი (დააჭირე ახტომას ორჯერ ჰაერში)!'
-  },
-  {
-    name: "🏘️ სამყარო 2: საქართველოს ისტორია (ლეველები 11-20)",
-    skyTop: "#2c3e50", skyBottom: "#4ca1af", groundColor: "#5d4037", platformColor: "#d35400",
-    decorType: "village",
-    platforms: [
-      { x: 0, y: 400, w: 850, h: 60 },
-      { x: 140, y: 290, w: 130, h: 18 },
-      { x: 340, y: 190, w: 160, h: 18 },
-      { x: 570, y: 260, w: 130, h: 18 }
-    ],
-    letters: [
-      { char: 'დ', x: 170, y: 245, minX: 145, maxX: 240, dir: 1, talked: false,
-        title: 'მოლაპარაკე ასო „დ“ (დავით აღმაშენებელი)',
-        text: 'გამარჯობა, გმირო! მე მეფე დავით აღმაშენებლის სახელის პირველი ასო ვარ. 1121 წელს დიდგორის ბრძოლაში მოპოვებულმა გამარჯვებამ საქართველო გააერთიანა!' },
-      { char: 'თ', x: 390, y: 145, minX: 350, maxX: 470, dir: -1, talked: false,
-        title: 'მოლაპარაკე ასო „თ“ (თამარ მეფე)',
-        text: 'სალამი! მე თამარ მეფის ეპოქის მაცნე ვარ. სწორედ თამარის მეფობისას (XII საუკუნეში) შეიქმნა „ვეფხისტყაოსანი“ და აშენდა ვარძია.' }
-    ],
-    books: [
-      { x: 200, y: 255, collected: false, title: '📚 ისტორიის წიგნი: გელათი',
-        text: 'დავით აღმაშენებელმა 1106 წელს დააარსა გელათის აკადემია, რომელსაც „მეორე იერუსალიმსა და ახალ ათენს“ უწოდებდნენ.' },
-      { x: 610, y: 225, collected: false, title: '📚 ისტორიის წიგნი: იაკობ გოგებაშვილი',
-        text: 'იაკობ გოგებაშვილი დაიბადა სოფელ ვარიანში (გორის მუნიციპალიტეტი) 1840 წელს. მან მთელი სიცოცხლე ქართული სკოლისა და ენის დაცვას მიუძღვნა.' }
-    ],
-    gate: { x: 770, y: 320, w: 50, h: 80 },
-    quiz: {
-      question: 'ასო „დ“ გეკითხება: რომელ წელს გამოიცა პირველად იაკობ გოგებაშვილის „დედაენა“?',
+      hint: "წიგნს წელს 150 წელი უსრულდება."
+    };
+  } else if (!isEven) {
+    worldName = `📚 დონე ${i}: იაკობის შემეცნებითი გზა`;
+    letterText = `შენ წარმატებით მიიწევ წინ დონეზე ${i}! იაკობ გოგებაშვილის მემკვიდრეობა უკვდავია.`;
+    bookText = "ქართული ანბანი და წიგნი ჩვენი სულიერი საძირკველია.";
+    quizData = {
+      question: `კითხვა დონე ${i}-სთვის: სად დაიბადა იაკობ გოგებაშვილი?`,
       options: [
-        { text: 'ა) 1876 წელს', correct: true },
-        { text: 'ბ) 1121 წელს', correct: false },
-        { text: 'გ) 1918 წელს', correct: false }
+        { text: "ა) სოფელ ვარიანში", correct: true },
+        { text: "ბ) ბათუმში", correct: false }
       ],
-      hint: 'გაიხსენე პირველ სამყაროში ნანახი ცოდნის წიგნი — მე-19 საუკუნის 70-იანი წლები!'
-    },
-    rewardText: 'შესანიშნავია! შენ გადალახე საქართველოს ისტორიის სამყარო და მოიპოვე 100 ოქროს მონეტა!'
-  },
-  {
-    name: "🌲 სამყარო 3: საქართველოს ბუნება (ლეველები 21-30)",
-    skyTop: "#134e5e", skyBottom: "#71b280", groundColor: "#2d5a27", platformColor: "#f39c12",
-    decorType: "forest",
+      hint: "გორის მუნიციპალიტეტის სოფელია."
+    };
+  } else {
+    // ლუწები - თითოეულს აქვს თავისი უნიკალური ანეკდოტი და განსხვავებული კითხვა!
+    worldName = `🤪 დონე ${i}: სახალისო იუმორი & ანეკდოტი`;
+
+    if (i === 2) {
+      letterText = "ანეკდოტი: სკოლაში მასწავლებელი მოსწავლეს ეკითხება: — აბა მითხარით, რატომ არის დედამიწა მრგვალი? მოსწავლე: — იმიტომ, რომ ადვილად ვიგორაოთ ბოლოდან ბოლომდე!";
+      bookText = "📚 მხიარული წიგნი: სკოლის სახალისო გაკვეთილები";
+      quizData = {
+        question: "რატომ უპასუხა მოსწავლემ ასე მასწავლებელს?",
+        options: [
+          { text: "ა) იმიტომ რომ იხუმრა და გაერთო", correct: true },
+          { text: "ბ) სერიოზული გეოგრაფიული თეორია იყო", correct: false }
+        ],
+        hint: "ეს სუფთა საბავშვო ხუმრობაა."
+      };
+    } else if (i === 4) {
+      letterText = "ანეკდოტი: სვანი შედის აფთიაქში და ამბობს: — გამარჯობა, რამე ისეთი წამალი მომეცით, თავი რომ არ მტკიოდეს! აფთიაქარი: — გთხოვთ, აი ეს ქუდი დაიხურეთ. სვანი: — მერე ეს თავის ტკივილს შველის? — არა, მაგრამ ზომით პატარაა და იმდენად გიჭერს, სხვა ყველაფერი დაგავიწყებს!";
+      bookText = "📚 მხიარული წიგნი: სვანური იუმორის მარგალიტები";
+      quizData = {
+        question: "რა შესთავაზა აფთიაქარმა სვანს თავის ტკივილის მოსახსნელად?",
+        options: [
+          { text: "ა) პატარა ზომის ქუდი", correct: true },
+          { text: "ბ) ვიტამინები", correct: false }
+        ],
+        hint: "ქუდი რომელიც მაგრად ჭერდა."
+      };
+    } else if (i === 6) {
+      letterText = "ანეკდოტი: კახეთში სტუმარი მივიდა. მასპინძელმა ერთი ჭიქა ღვინო დაუსხა და ეუბნება: — აბა, გაუმარჯოს! — გაგიმარჯოთ, მადლობა. — კიდევ გინდა? — კი ბატონო. მასპინძელი ეძახის ცოლს: — მარიამ, ძმაო, მეორე ჭიქაც მოიტანე, სტუმარს ჯერ კიდევ სწყურია!";
+      bookText = "📚 მხიარული წიგნი: კახური მასპინძლობა";
+      quizData,
+      quizData = {
+        question: "როგორ მიმართა კახელმა მასპინძელმა საკუთარ ცოლს?",
+        options: [
+          { text: "ა) სიტყვით „ძმაო“", correct: true },
+          { text: "ბ) სიტყვით „დედოფალო“", correct: false }
+        ],
+        hint: "ძალიან თბილი და კახური მიმართვაა."
+      };
+    } else if (i === 8) {
+      letterText = "ანეკდოტი: მეგრელი მიდის მატარებელში და თან მიაქვს უზარმაზარი საზამთრო. გამცილებელი ეუბნება: — ბიძია, საზამთროს ბარგის ფული უნდა გადაიხადო! მეგრელი გაკვირვებული: — რის ფული, კაცო, ეს ჩემი შვილია, მივყავარ სოფელში დასასვენებლად!";
+      bookText = "📚 მხიარული წიგნი: მეგრული ხუმრობები";
+      quizData = {
+        question: "რა უთხრა მეგრელმა გამცილებელს საზამთროზე?",
+        options: [
+          { text: "ა) რომ მისი შვილი იყო", correct: true },
+          { text: "ბ) რომ ბურთი იყო", correct: false }
+        ],
+        hint: "მან ის თავის შვილად მონათლა."
+      };
+    } else if (i === 10) {
+      letterText = "ანეკდოტი: მასწავლებელი: — აბა, ვინ იტყვის, რა განსხვავებაა მართალსა და ტყუილს შორის? მოსწავლე: — მართალი თვალნათლივ ჩანს, ტყუილს კი მოკლე ფეხები აქვს!";
+      bookText = "📚 მხიარული წიგნი: სიბრძნე და სიცილი";
+      quizData = {
+        question: "რა აქვს ტყუილს ანდაზის მიხედვით?",
+        options: [
+          { text: "ა) მოკლე ფეხები", correct: true },
+          { text: "ბ) გრძელი ცხვირი", correct: false }
+        ],
+        hint: "ცნობილი გამოთქმაა."
+      };
+    } else if (i === 12) {
+      letterText = "ანეკდოტი: რაჭველი მიდის ძალიან ნელა, ფეხს ძლივს ადგამს. მეგობარი ეძახის: — რავა ხარ, რატომ სეირნობ ასე ნელა? რაჭველი: — რა ვიცი, მეჩქარება და ამიტომ მოვდივარ ასე ფრთხილად და ნელაო!";
+      bookText = "📚 მხიარული წიგნი: რაჭული სიჩქარე";
+      quizData = {
+        question: "რატომ მოდიოდა რაჭველი ნელა?",
+        options: [
+          { text: "ა) იმიტომ რომ ეჩქარებოდა", correct: true },
+          { text: "ბ) იმიტომ რომ ეძინებოდა", correct: false }
+        ],
+        hint: "პარადოქსული რაჭული იუმორია."
+      };
+    } else if (i === 14) {
+      letterText = "ანეკდოტი: კაცი ეკითხება მეგობარს: — შენ რა პროფესიის ხარ? — ილუსტრატორი ვარ. — მერე რას აკეთებ? — ხალხს ვუხატავ მომავალს! — ოჰ, რა კარგია, აბა მეც დამიხატე პენსიაზე კარგად ცხოვრება!";
+      bookText = "📚 მხიარული წიგნი: მხატვრული ფანტაზია";
+      quizData = {
+        question: "რა პროფესიისაა კაცი ანეკდოტში?",
+        options: [
+          { text: "ა) ილუსტრატორი", correct: true },
+          { text: "ბ) მცხობელი", correct: false }
+        ],
+        hint: "მხატვართან დაკავშირებული სიტყვაა."
+      };
+    } else if (i === 16) {
+      letterText = "ანეკდოტი: ორი მეგობარი საუბრობს: — იცი, გუშინ კინოში ვიყავი და ისეთი საშინელი ფილმი იყო, პირველ ნახევარ საათში დავიძინე. — მერე რა ქენი? — მერე სხვებმაც გამაღვიძეს, როცა სინათლე აინთო და ბილეთები დაგვიბრუნეს!";
+      bookText = "📚 მხიარული წიგნი: კინოს ამბები";
+      quizData = {
+        question: "რა გააკეთა კაცმა კინოში შესვლისთანავე?",
+        options: [
+          { text: "ა) დაიძინა", correct: true },
+          { text: "ბ) ფილმი გადაიღო", correct: false }
+        ],
+        hint: "მას ძალიან მოეწყინა."
+      };
+    } else if (i === 18) {
+      letterText = "ანეკდოტი: გურული მიდის ქალაქში და ტაქსისტს ეუბნება: — ძმაო, რუსთაველის თეატრამდე მიმიყვანე რა! — აბა ჩაჯექი. გურული ჯდება და ეკითხება: — მერე შენ თვითონ არ მოდიხარ?";
+      bookText = "📚 მხიარული წიგნი: გურული ხუმრობები";
+      quizData = {
+        question: "რა უკვირდა გურულს ტაქსისტისგან?",
+        options: [
+          { text: "ა) მიჰყვებოდა თუ არა ცალკე მანქანით", correct: true },
+          { text: "ბ) მანქანის ფერი", correct: false }
+        ],
+        hint: "მან ეგონა რომ ტაქსისტიც ფეხით მიჰყვებოდა."
+      };
+    } else if (i === 20) {
+      letterText = "ანეკდოტი: ბავშვი ეკითხება მამას: — მამა, მართალია, რომ სიყვარული ბრმაა? მამა ამოიოხრებს: — კი შვილო, აბა შენც შეხედე დედათქვენს და მიხვდები!";
+      bookText = "📚 მხიარული წიგნი: ოჯახური იუმორი";
+      quizData = {
+        question: "რა უპასუხა მამამ შვილს სიყვარულზე?",
+        options: [
+          { text: "ა) რომ სიყვარული მართლაც ბრმაა", correct: true },
+          { text: "ბ) რომ ის მფრინავია", correct: false }
+        ],
+        hint: "სახალისო მამის პასუხი."
+      };
+    } else if (i === 22) {
+      letterText = "ანეკდოტი: შეხვდა ორი მეგობარი ერთმანეთს: — იცი, ჩემმა ძაღლმა ლაპარაკი ისწავლა! — რას ამბობ, მართლა? — კი, ბატონო, გუშინ მეკითხება: „რა მოგიტანო მაღაზიიდანო?“";
+      bookText = "📚 მხიარული წიგნი: საოცარი ძაღლი";
+      quizData,
+      quizData = {
+        question: "რა ისწავლა მეგობრის ძაღლმა?",
+        options: [
+          { text: "ა) ლაპარაკი", correct: true },
+          { text: "ბ) ცეკვა", correct: false }
+        ],
+        hint: "ის ადამიანის მსგავსად საუბრობდა."
+      };
+    } else if (i === 24) {
+      letterText = "ანეკდოტი: კაცი რესტორანში ოფიციანტს ეუბნება: — მომისმინეთ, ამ წვნიანში ბუზი ცურავს! — რას იზამთ, ბატონო, ასაკი აქვს და ალბათ ცურვაც უყვარს!";
+      bookText = "📚 მხიარული წიგნი: რესტორნის კურიოზები";
+      quizData = {
+        question: "რა პასუხი გასცა ოფიციანტმა კაცს?",
+        options: [
+          { text: "ა) რომ ბუზს ცურვა უყვარს", correct: true },
+          { text: "ბ) რომ ახალი წვნიანი მოჰქონდა", correct: false }
+        ],
+        hint: "ოფიციანტმა იხუმრა."
+      };
+    } else if (i === 26) {
+      letterText = "ანეკდოტი: ბიჭი ეუბნება გოგოს: — იცი, შენ ისეთი მშვენიერი ხარ, როცა გიყურებ, მზე მავიწყდება! — მართლა? ასეთი ლამაზი ვარ? — არა, უბრალოდ თვალებს ვხუჭავ, ისე მღლის შენი საუბარი!";
+      bookText = "📚 მხიარული წიგნი: რომანტიკული იუმორი";
+      quizData = {
+        question: "რატომ ეუბნებოდა ბიჭი ამას გოგოს?",
+        options: [
+          { text: "ა) რომ სახალისოდ ეხუმრა", correct: true },
+          { text: "ბ) რომ მართლა უყვარდა", correct: false }
+        ],
+        hint: "მოულოდნელი დასასრული."
+      };
+    } else {
+      // 28-ე დონე
+      letterText = "ანეკდოტი: ბოსტნეულის მაღაზიაში მყიდველი ეკითხება გამყიდველს: — ეს ვაშლები ტკბილია? — კი ბატონო, ისეთი ტკბილია, რომ შაქრის ამოღებაც კი არ დაგჭირდებათ, კბილები დაგემტვრევათ სიტკბოსგან!";
+      bookText = "📚 მხიარული წიგნი: ბაზრის იუმორი";
+      quizData = {
+        question: "რა თქვა გამყიდველმა ვაშლებზე?",
+        options: [
+          { text: "ა) რომ ძალიან ტკბილი იყო", correct: true },
+          { text: "ბ) რომ მწარე იყო", correct: false }
+        ],
+        hint: "სიტკბოსგან კბილები დაგემტვრევათო."
+      };
+    }
+  }
+
+  worlds.push({
+    name: worldName,
+    skyColor: isFinal ? 0x2e1065 : (isEven ? 0x3b0764 : 0x020617 + i * 800),
+    groundColor: 0x090d16,
+    platformColor: isFinal ? 0xf59e0b : (isEven ? 0xec4899 : 0x0284c7),
     platforms: [
-      { x: 0, y: 400, w: 850, h: 60 },
-      { x: 130, y: 300, w: 140, h: 18 },
-      { x: 340, y: 210, w: 150, h: 18 },
-      { x: 560, y: 270, w: 140, h: 18 }
+      { x: 0, y: -3, z: 0, w: 32, h: 1.2, d: 6 },
+      { x: -3 + (i%2), y: -0.5 + (i%3)*0.1, z: 0, w: 4.5, h: 0.6, d: 3.5 },
+      { x: 3 - (i%2), y: 1 + (i%2)*0.2, z: 0, w: 4.5, h: 0.6, d: 3.5 }
     ],
-    letters: [
-      { char: 'ბ', x: 160, y: 255, minX: 135, maxX: 240, dir: 1, talked: false,
-        title: 'ტყის მცველი ასო „ბ“ (ბუნება)',
-        text: 'მოგესალმები ბუნების სამყაროში! საქართველოში 4000-ზე მეტი სახეობის მცენარე იზრდება. გაუფრთხილდი ტყეებს და არ დააბინძურო გარემო!' },
-      { char: 'მ', x: 390, y: 165, minX: 350, maxX: 460, dir: -1, talked: false,
-        title: 'მთის ასო „მ“ (მყინვარწვერი და შხარა)',
-        text: 'სალამი! საქართველოს უმაღლესი მწვერვალია შხარა (5193 მ), ხოლო მდინარე ალაზანი ყველაზე გრძელი მდინარეა!' }
-    ],
-    books: [
-      { x: 200, y: 265, collected: false, title: '📚 ბუნების წიგნი: წითელი ნუსხა',
-        text: 'საქართველოს წითელ ნუსხაში შეტანილია იშვიათი ცხოველები: კავკასიური ჯიხვი, არჩვი, მურა დათვი და ფოცხვერი.' },
-      { x: 610, y: 235, collected: false, title: '📚 ბუნების წიგნი: კოლხური ტყეები',
-        text: 'კოლხეთის ტყეები და ჭარბტენიანი ტერიტორიები იუნესკოს მსოფლიო ბუნებრივი მემკვიდრეობის ძეგლია!' }
-    ],
-    gate: { x: 770, y: 320, w: 50, h: 80 },
-    quiz: {
-      question: 'ასო „მ“ გეკითხება: რომელია საქართველოს უმაღლესი მწვერვალი?',
-      options: [
-        { text: 'ა) შხარა (5193 მ)', correct: true },
-        { text: 'ბ) მყინვარწვერი (5054 მ)', correct: false },
-        { text: 'გ) უშბა (4710 მ)', correct: false }
-      ],
-      hint: 'ის სვანეთში მდებარეობს და მისი სიმაღლე 5193 მეტრია.'
-    },
-    rewardText: 'ყოჩაღ! ბუნების მცველის წოდება შენია. წინ ბოლო — ლიტერატურის სამყარო გელოდება!'
-  },
-  {
-    name: "📖 სამყარო 4: ლიტერატურა და დედაენა (ლეველები 31-40)",
-    skyTop: "#240b36", skyBottom: "#c31432", groundColor: "#3e2723", platformColor: "#f9ed69",
-    decorType: "library",
-    platforms: [{ x: 0, y: 400, w: 850, h: 60 },
-{ x: 140, y: 290, w: 140, h: 18 },
-{ x: 350, y: 200, w: 150, h: 18 },
-{ x: 560, y: 270, w: 140, h: 18 }
-],
-letters: [
-{ char: 'შ', x: 170, y: 245, minX: 145, maxX: 250, dir: 1, talked: false,
-title: 'მოლაპარაკე ასო „შ“ (შოთა რუსთაველი)',
-text: 'გამარჯობა, მკითხველო! მე შოთა რუსთაველის სახელის ასო ვარ. „რაცა ვის რა ბედმან მისცეს, დასჯერდეს და მას უბნობდეს!“' },
-{ char: 'წ', x: 390, y: 155, minX: 360, maxX: 470, dir: -1, talked: false,
-title: 'მოლაპარაკე ასო „წ“ (წიგნი და ცოდნა)',
-text: 'წინ ფინალური კარიბჭეა! ჩააბარე მთავარი საიუბილეო გამოცდა და შეხვდი ქართული ანბანის ყველა ასოს!' }
-],
-books: [
-{ x: 210, y: 255, collected: false, title: '📚 ლიტერატურის წიგნი: გამოცანა',
-text: 'ქართული ხალხური გამოცანა: „უსულოა, უენოა, მაგრამ ყველას ელაპარაკება, ჭკუას გვასწავლის და გვართობს. რა არის?“ — პასუხი: წიგნი!' },
-{ x: 610, y: 235, collected: false, title: '📚 ლიტერატურის წიგნი: დედაენის საიდუმლო',
-text: '„დედაენაში“ თავმოყრილია ქართული ანდაზები, გამოცანები, ლექსები და მოთხრობები, რომლებზეც თაობები აღიზარდა.' }
-],
-gate: { x: 770, y: 320, w: 50, h: 80 },
-quiz: {
-question: 'ფინალური გამოცდა (ლეველი 40): ვის ეკუთვნის სიტყვები „დედაენა არის საფუძველი ეროვნული განათლებისა“?',
-options: [
-{ text: 'ა) იაკობ გოგებაშვილს', correct: true },
-{ text: 'ბ) ვაჟა-ფშაველას', correct: false },
-{ text: 'გ) აკაკი წერეთელს', correct: false }
-],
-hint: 'ის არის ქართული „დედაენის“ ავტორი!'
-},
-rewardText: ''
+    letters: [{ 
+      char: alphabets[(i-1) % alphabets.length], 
+      x: -3, y: 0.5, z: 0, minX: -5, maxX: -1, dir: isEven ? 0.05 : 0.03, talked: false, 
+      title: isEven ? `🤪 მხიარული ანეკდოტი დონე ${i}` : `📚 დონე ${i} - ცოდნის ეტაპი`, 
+      text: letterText 
+    }],
+    books: [{ 
+      x: 3, y: 2, z: 0, collected: false, 
+      title: isEven ? `📚 მხიარული წიგნი #${i}` : `📚 წიგნი #${i}: მემკვიდრეობა`, 
+      text: bookText 
+    }],
+    gate: { x: 11, y: -1.5, z: 0 },
+    quiz: quizData,
+    rewardText: isFinal ? '' : `შესანიშნავია! გადახვედი შემდეგ — ${i+1}-ე დონეზე!`
+  });
 }
-];
-let currentWorld = JSON.parse(JSON.stringify(worlds[0]));
+
+function initNav() {
+  const nav = document.getElementById('navContainer');
+  nav.innerHTML = '';
+  worlds.forEach((w, idx) => {
+    const btn = document.createElement('button');
+    let isEven = ((idx + 1) % 2 === 0);
+    btn.className = 'world-btn ' + (idx === 0 ? 'active' : '');
+    btn.innerText = (idx + 1) + (isEven ? ' 🤪' : '');
+    btn.onclick = () => loadWorld(idx);
+    nav.appendChild(btn);
+  });
+}
+
+function init3D() {
+  const container = document.getElementById('game-container');
+  
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(worlds[0].skyColor);
+
+  camera = new THREE.PerspectiveCamera(55, 940 / 460, 0.1, 1000);
+  camera.position.set(0, 1.5, 9.5);
+
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(940, 460);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  container.appendChild(renderer.domElement);
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+  scene.add(ambientLight);
+
+  const mainLight = new THREE.DirectionalLight(0xffffff, 1.9);
+  mainLight.position.set(15, 25, 15);
+  mainLight.castShadow = true;
+  scene.add(mainLight);
+
+  const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.3);
+  rimLight.position.set(-15, 12, -10);
+  scene.add(rimLight);
+
+  playerGroup = new THREE.Group();
+  
+  const bodyMat = new THREE.MeshStandardMaterial({ color: 0x2563eb, roughness: 0.1, metalness: 0.85 });
+  const bodyMesh = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.6, 0.35), bodyMat);
+  bodyMesh.position.y = -0.1;
+  playerGroup.add(bodyMesh);
+
+  const headMat = new THREE.MeshStandardMaterial({ color: 0xffdbac, roughness: 0.3, metalness: 0.1 });
+  const headMesh = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), headMat);
+  headMesh.position.y = 0.35;
+  playerGroup.add(headMesh);
+
+  const hairMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3, metalness: 0.4 });
+  const hairMesh = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.15, 0.42), hairMat);
+  hairMesh.position.y = 0.58;
+  playerGroup.add(hairMesh);
+
+  const bagMat = new THREE.MeshStandardMaterial({ color: 0x059669, roughness: 0.15, metalness: 0.7 });
+  const bagMesh = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.45, 0.2), bagMat);
+  bagMesh.position.set(0, -0.1, -0.25);
+  playerGroup.add(bagMesh);
+
+  const legMat = new THREE.MeshStandardMaterial({ color: 0x020617, roughness: 0.15, metalness: 0.8 });
+  leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.4, 0.2), legMat);
+  leftLeg.position.set(-0.13, -0.6, 0);
+  rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.4, 0.2), legMat);
+  rightLeg.position.set(0.13, -0.6, 0);
+  playerGroup.add(leftLeg);
+  playerGroup.add(rightLeg);
+
+  scene.add(playerGroup);
+
+  initNav();
+
+  const fontLoader = new THREE.FontLoader();
+  fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (responseFont) {
+    font = responseFont;
+    fontLoaded = true;
+    loadWorld(0);
+    animate();
+  });
+}
+
 function loadWorld(index) {
-currentWorldIndex = index;
-currentWorld = JSON.parse(JSON.stringify(worlds[index]));
-player.x = 40;
-player.y = 340;
-player.vx = 0;
-player.vy = 0;
-gameWon = false;
-gamePaused = false;
-if (index >= 1) {
-doubleJumpUnlocked = true;
-document.getElementById('powerStatus').innerText = '✨ ორმაგი ნახტომი';
+  currentWorldIndex = index;
+  const wData = worlds[index];
+  
+  scene.background.setHex(wData.skyColor);
+  document.getElementById('worldTitle').innerText = wData.name;
+  document.getElementById('coins').innerText = coins;
+  document.getElementById('books').innerText = 0;
+  document.getElementById('totalBooks').innerText = wData.books.length;
+  
+  if (index >= 1) {
+    doubleJumpUnlocked = true;
+    document.getElementById('powerStatus').innerText = '✨ ორმაგი ნახტომი';
+  }
+
+  document.querySelectorAll('.world-btn').forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === index);
+  });
+
+  platformMeshes.forEach(m => scene.remove(m));
+  itemMeshes.forEach(m => scene.remove(m));
+  if (gateMesh) scene.remove(gateMesh);
+  
+  platformMeshes = [];
+  itemMeshes = [];
+
+  wData.platforms.forEach(p => {
+    const geo = new THREE.BoxGeometry(p.w, p.h, p.d);
+    const mat = new THREE.MeshStandardMaterial({ 
+      color: p.y === -3 ? wData.groundColor : wData.platformColor,
+      roughness: 0.08,
+      metalness: 0.75
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(p.x, p.y, p.z);
+    scene.add(mesh);
+    platformMeshes.push({ mesh, data: p });
+  });
+
+  wData.books.forEach(b => {
+    const bookGroup = new THREE.Group();
+    const coverMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.04, metalness: 0.9 });
+    const pagesMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 });
+    const spineMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.08, metalness: 0.8 });
+    
+    const cover = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.65, 0.22), coverMat);
+    const pages = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.58, 0.18), pagesMat);
+    pages.position.x = 0.03;
+    const spine = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.65, 0.22), spineMat);
+    spine.position.x = -0.26;
+
+    bookGroup.add(cover);
+    bookGroup.add(pages);
+    bookGroup.add(spine);
+    bookGroup.position.set(b.x, b.y, b.z);
+    scene.add(bookGroup);
+    
+    itemMeshes.push({ type: 'book', mesh: bookGroup, data: b });
+  });
+
+  wData.letters.forEach(l => {
+    let letterMesh;
+    if (fontLoaded && font) {
+      const textGeo = new THREE.TextGeometry(l.char, {
+        font: font,
+        size: 0.6,
+        height: 0.2,
+        curveSegments: 8
+      });
+      textGeo.center();
+      const textMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.04, metalness: 0.95, emissive: 0xb45309 });
+      letterMesh = new THREE.Mesh(textGeo, textMat);
+    } else {
+      const fallbackGeo = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+      const fallbackMat = new THREE.MeshStandardMaterial({ color: 0xfacc15 });
+      letterMesh = new THREE.Mesh(fallbackGeo, fallbackMat);
+    }
+
+    letterMesh.position.set(l.x, l.y, l.z);
+    scene.add(letterMesh);
+    itemMeshes.push({ type: 'letter', mesh: letterMesh, data: l });
+  });
+
+  const gateGeo = new THREE.BoxGeometry(1.2, 2.5, 0.4);
+  const gateMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, emissive: 0xd97706, roughness: 0.05, metalness: 0.85 });
+  gateMesh = new THREE.Mesh(gateGeo, gateMat);
+  gateMesh.position.set(wData.gate.x, wData.gate.y, wData.gate.z);
+  scene.add(gateMesh);
+
+  player.x = -8;
+  player.y = -1.5;
+  player.vx = 0;
+  player.vy = 0;
+  gameWon = false;
+  gamePaused = false;
 }
-document.getElementById('worldTitle').innerText = currentWorld.name;
-document.getElementById('books').innerText = 0;
-document.getElementById('totalBooks').innerText = currentWorld.books.length;
-document.querySelectorAll('.world-btn').forEach((btn, idx) => {
-btn.classList.toggle('active', idx === index);
-});
-}
+
 window.addEventListener('keydown', e => {
-keys[e.code] = true;
-if ((e.code === 'ArrowUp' || e.code === 'Space') && !gamePaused && !gameWon) {
-if (player.grounded) {
-player.vy = player.jumpPower;
-player.grounded = false;
-jumpsLeft = doubleJumpUnlocked ? 1 : 0;
-} else if (jumpsLeft > 0) {
-player.vy = player.jumpPower * 0.9;
-jumpsLeft--;
-}
-}
-if (e.code === 'Enter' && document.getElementById('infoModal').style.display === 'block') {
-closeModal();
-}
+  keys[e.code] = true;
+  if ((e.code === 'ArrowUp' || e.code === 'Space') && !gamePaused && !gameWon) {
+    if (player.grounded) {
+      player.vy = player.jumpPower;
+      player.grounded = false;
+      jumpsLeft = doubleJumpUnlocked ? 1 : 0;
+    } else if (jumpsLeft > 0) {
+      player.vy = player.jumpPower * 0.85;
+      jumpsLeft--;
+    }
+  }
+  if (e.code === 'Enter' && document.getElementById('infoModal').style.display === 'block') {
+    closeModal();
+  }
 });
+
 window.addEventListener('keyup', e => keys[e.code] = false);
+
 function showModal(title, text) {
-gamePaused = true;
-document.getElementById('modalTitle').innerText = title;
-document.getElementById('modalText').innerText = text;
-document.getElementById('infoModal').style.display = 'block';
+  gamePaused = true;
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalText').innerText = text;
+  document.getElementById('infoModal').style.display = 'block';
 }
+
 function closeModal() {
-document.getElementById('infoModal').style.display = 'none';
-gamePaused = false;
+  document.getElementById('infoModal').style.display = 'none';
+  gamePaused = false;
 }
+
 function openQuiz() {
-gamePaused = true;
-const modal = document.getElementById('quizModal');
-document.getElementById('quizQuestion').innerText = currentWorld.quiz.question;
-document.getElementById('quizFeedback').innerText = '';
-const optionsDiv = document.getElementById('quizOptions');
-optionsDiv.innerHTML = '';
-currentWorld.quiz.options.forEach(opt => {
-const btn = document.createElement('button');
-btn.className = 'btn';
-btn.innerText = opt.text;
-btn.onclick = () => checkAnswer(opt.correct);
-optionsDiv.appendChild(btn);
-});
-modal.style.display = 'block';
+  gamePaused = true;
+  const modal = document.getElementById('quizModal');
+  document.getElementById('quizQuestion').innerText = worlds[currentWorldIndex].quiz.question;
+  document.getElementById('quizFeedback').innerText = '';
+  const optionsDiv = document.getElementById('quizOptions');
+  optionsDiv.innerHTML = '';
+  
+  worlds[currentWorldIndex].quiz.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.style.display = 'block';
+    btn.style.width = '100%';
+    btn.style.margin = '8px 0';
+    btn.innerText = opt.text;
+    btn.onclick = () => checkAnswer(opt.correct);
+    optionsDiv.appendChild(btn);
+  });
+  modal.style.display = 'block';
 }
+
 function checkAnswer(isCorrect) {
-const feedback = document.getElementById('quizFeedback');
-if (isCorrect) {
-coins += 100;
-document.getElementById('coins').innerText = coins;
-document.getElementById('quizModal').style.display = 'none';
-if (currentWorldIndex < worlds.length - 1) {
-const rewardMsg = currentWorld.rewardText;
-loadWorld(currentWorldIndex + 1);
-showModal('🎉 სამყარო წარმატებით გაიარე!', rewardMsg);
-} else {
-gameWon = true;
-gamePaused = false;
+  const feedback = document.getElementById('quizFeedback');
+  if (isCorrect) {
+    coins += 50;
+    document.getElementById('coins').innerText = coins;
+    document.getElementById('quizModal').style.display = 'none';
+    
+    if (currentWorldIndex < worlds.length - 1) {
+      const rewardMsg = worlds[currentWorldIndex].rewardText;
+      loadWorld(currentWorldIndex + 1);
+      showModal('🎉 დონე წარმატებით გაიარე!', rewardMsg);
+    } else {
+      gameWon = true;
+      gamePaused = false;
+      showModal('🏆 გილოცავთ! 🎉', '🇬🇪 გილოცავთ „დედაენის“ 150 წლის იუბილეს! შენ წარმატებით დაასრულე ყველა 30-ვე დონე, გაიარე მხიარული ანეკდოტური ლუწი ეტაპები და შეიცანი ქართული ენის დიდებული ისტორია!');
+    }
+  } else {
+    feedback.innerText = '❌ სცადე კიდევ ერთხელ! მინიშნება: ' + worlds[currentWorldIndex].quiz.hint;
+  }
 }
-} else {
-feedback.innerText = '❌ სცადე კიდევ ერთხელ! მინიშნება: ' + currentWorld.quiz.hint;
-}
-}
+
 function update() {
-if (gamePaused || gameWon) return;
-if (keys['ArrowLeft']) player.vx = -player.speed;
-else if (keys['ArrowRight']) player.vx = player.speed;
-else player.vx = 0;
-player.vy += gravity;
-player.x += player.vx;
-player.y += player.vy;
-if (player.x < 0) player.x = 0;
-if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
-player.grounded = false;
-currentWorld.platforms.forEach(p => {
-if (player.x < p.x + p.w && player.x + player.width > p.x &&
-player.y + player.height > p.y && player.y + player.height - player.vy <= p.y) {
-player.y = p.y - player.height;
-player.vy = 0;
-player.grounded = true;
-jumpsLeft = doubleJumpUnlocked ? 1 : 0;
+  if (gamePaused || gameWon) return;
+
+  if (keys['ArrowLeft']) {
+    player.vx = -player.speed;
+  } else if (keys['ArrowRight']) {
+    player.vx = player.speed;
+  } else {
+    player.vx = 0;
+  }
+
+  if (player.vx !== 0 && player.grounded) {
+    legAnimTime += 0.2;
+    leftLeg.rotation.x = Math.sin(legAnimTime) * 0.5;
+    rightLeg.rotation.x = -Math.sin(legAnimTime) * 0.5;
+  } else {
+    leftLeg.rotation.x = 0;
+    rightLeg.rotation.x = 0;
+  }
+
+  player.vy -= gravity;
+  player.x += player.vx;
+  player.y += player.vy;
+
+  if (player.x < -13) player.x = -13;
+  if (player.x > 13) player.x = 13;
+
+  player.grounded = false;
+  platformMeshes.forEach(p => {
+    const pData = p.data;
+    if (player.x + player.width/2 > pData.x - pData.w/2 &&
+        player.x - player.width/2 < pData.x + pData.w/2 &&
+        player.y - player.height/2 <= pData.y + pData.h/2 &&
+        player.y - player.height/2 >= pData.y - pData.h/2 - 0.3 &&
+        player.vy <= 0) {
+      player.y = pData.y + pData.h/2 + player.height/2;
+      player.vy = 0;
+      player.grounded = true;
+      jumpsLeft = doubleJumpUnlocked ? 1 : 0;
+    }
+  });
+
+  itemMeshes.forEach(item => {
+    if (item.type === 'letter') {
+      item.data.x += item.data.dir;
+      if (item.data.x > item.data.maxX || item.data.x < item.data.minX) item.data.dir *= -1;
+      item.mesh.position.x = item.data.x;
+      item.mesh.rotation.y += 0.02;
+
+      if (!item.data.talked && Math.abs(player.x - item.data.x) < 0.8 && Math.abs(player.y - item.data.y) < 1) {
+        item.data.talked = true;
+        coins += 25;
+        document.getElementById('coins').innerText = coins;
+        showModal(item.data.title, item.data.text);
+      }
+    } else if (item.type === 'book') {
+      item.mesh.rotation.y += 0.03;
+      if (!item.data.collected && Math.abs(player.x - item.data.x) < 0.8 && Math.abs(player.y - item.data.y) < 1) {
+        item.data.collected = true;
+        item.mesh.visible = false;
+        const collectedCount = worlds[currentWorldIndex].books.filter(b => b.collected).length;
+        coins += 30;
+        document.getElementById('books').innerText = collectedCount;
+        document.getElementById('coins').innerText = coins;
+        showModal(item.data.title, item.data.text);
+      }
+    }
+  });
+
+  const gData = worlds[currentWorldIndex].gate;
+  if (Math.abs(player.x - gData.x) < 0.8 && Math.abs(player.y - gData.y) < 1.5) {
+    player.x = gData.x - 1;
+    openQuiz();
+  }
+
+  playerGroup.position.set(player.x, player.y, player.z);
+  
+  camera.position.x += (player.x - camera.position.x) * 0.08;
+  camera.position.x = Math.max(-3, Math.min(6, camera.position.x));
 }
-});
-// მოსიარულე ასოები
-currentWorld.letters.forEach(l => {
-l.x += l.dir * 0.8;
-if (l.x > l.maxX || l.x < l.minX) l.dir *= -1;
-if (!l.talked && Math.abs(player.x - l.x) < 35 && Math.abs(player.y - l.y) < 40) {
-l.talked = true;
-coins += 25;
-document.getElementById('coins').innerText = coins;
-showModal(l.title, l.text);
+
+function animate() {
+  requestAnimationFrame(animate);
+  update();
+  if (renderer && scene && camera) {
+    renderer.render(scene, camera);
+  }
 }
-});
-// ცოდნის წიგნები
-currentWorld.books.forEach(b => {
-if (!b.collected && Math.abs(player.x - b.x) < 35 && Math.abs(player.y - b.y) < 40) {
-b.collected = true;
-const collectedCount = currentWorld.books.filter(item => item.collected).length;
-coins += 30;
-document.getElementById('books').innerText = collectedCount;
-document.getElementById('coins').innerText = coins;
-showModal(b.title, b.text);
-}
-});
-// კარიბჭე
-const g = currentWorld.gate;
-if (player.x + player.width > g.x && player.y + player.height > g.y) {
-player.x = g.x - player.width - 5;
-openQuiz();
-}
-}
-function drawBackgroundDecor() {
-const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-grad.addColorStop(0, currentWorld.skyTop);
-grad.addColorStop(1, currentWorld.skyBottom);
-ctx.fillStyle = grad;
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-// სამყაროს შესაბამისი ფონის ელემენტები
-ctx.fillStyle = "rgba(255,255,255,0.08)";
-if (currentWorld.decorType === "castle") {
-ctx.fillRect(60, 180, 90, 220);
-ctx.fillRect(50, 160, 25, 20);
-ctx.fillRect(92, 160, 25, 20);
-ctx.fillRect(135, 160, 25, 20);
-} else if (currentWorld.decorType === "village") {
-ctx.fillRect(80, 240, 70, 160); // კოშკი
-ctx.beginPath(); ctx.moveTo(75, 240); ctx.lineTo(115, 200); ctx.lineTo(155, 240); ctx.fill();
-} else if (currentWorld.decorType === "forest") {
-ctx.beginPath(); ctx.moveTo(100, 400); ctx.lineTo(250, 150); ctx.lineTo(400, 400); ctx.fill();
-} else if (currentWorld.decorType === "library") {
-for (let i = 0; i < 5; i++) {
-ctx.fillRect(70 + i * 150, 100, 40, 300); // სვეტები
-}
-}
-}
-function draw() {
-drawBackgroundDecor();
-// პლატფორმები
-currentWorld.platforms.forEach((p, idx) => {
-ctx.fillStyle = idx === 0 ? currentWorld.groundColor : currentWorld.platformColor;
-ctx.fillRect(p.x, p.y, p.w, p.h);
-});
-// წიგნები
-currentWorld.books.forEach(b => {
-if (!b.collected) {
-ctx.fillStyle = '#00adb5';
-ctx.fillRect(b.x, b.y, 26, 28);
-ctx.fillStyle = '#fff';
-ctx.font = '18px Arial';
-ctx.fillText('📖', b.x + 2, b.y + 21);
-}
-});
-// მოსიარულე ასოები
-currentWorld.letters.forEach(l => {
-ctx.fillStyle = '#f9ed69';
-ctx.font = 'bold 38px serif';
-ctx.fillText(l.char, l.x, l.y + 32);
-ctx.fillStyle = '#000';
-ctx.fillRect(l.x + 8, l.y + 14, 3, 3);
-ctx.fillRect(l.x + 16, l.y + 14, 3, 3);
-});
-// კარიბჭე
-const g = currentWorld.gate;
-ctx.fillStyle = '#e94560';
-ctx.fillRect(g.x, g.y, g.w, g.h);
-ctx.strokeStyle = '#f9ed69';
-ctx.lineWidth = 3;
-ctx.strokeRect(g.x, g.y, g.w, g.h);
-ctx.fillStyle = '#fff';
-ctx.font = 'bold 13px sans-serif';
-ctx.fillText('კარიბჭე', g.x + 1, g.y - 8);
-// მოთამაშე
-ctx.fillStyle = '#ff2e63';
-ctx.fillRect(player.x, player.y, player.width, player.height);
-ctx.fillStyle = '#fce38a';
-ctx.fillRect(player.x + 5, player.y + 5, 20, 15);
-ctx.fillStyle = '#000';
-ctx.fillRect(player.x + 18, player.y + 9, 3, 3);
-// საიუბილეო ფინალი
-if (gameWon) {
-ctx.fillStyle = 'rgba(18, 18, 35, 0.95)';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.fillStyle = '#f9ed69';
-ctx.font = 'bold 28px sans-serif';
-ctx.textAlign = 'center';
-ctx.fillText('🎉 გილოცავთ! დედაენის 150 წლის იუბილე! 🎉', canvas.width / 2, 75);
-ctx.fillStyle = '#fff';
-ctx.font = '18px sans-serif';
-ctx.fillText('შენ გაიარე ოთხივე სამყარო! ქართული ანბანის 33-ვე ასო გილოცავს გამარჯვებას!', canvas.width / 2, 115);
-const alphabet = 'აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ'.split('');
-ctx.fillStyle = '#4ecca3';
-ctx.font = 'bold 28px serif';
-alphabet.forEach((letter, index) => {
-const col = index % 11;
-const row = Math.floor(index / 11);
-const lx = 155 + col * 54;
-const ly = 190 + row * 60 + Math.sin(Date.now() / 180 + index) * 6;
-ctx.fillText(letter, lx, ly);
-});
-ctx.fillStyle = '#f9ed69';
-ctx.font = 'bold 22px sans-serif';
-ctx.fillText("🏆 მოპოვებული წოდება: „დედაენის მცველი | სულ ქულა: ${coins} 🪙, canvas.width / 2, 405");
-ctx.textAlign = 'left';
-}
-}
-function gameLoop() {
-update();
-draw();
-requestAnimationFrame(gameLoop);
-}
-loadWorld(0);
-gameLoop();
+
+window.onload = init3D;
+</script>
+
+</body>
+</html>
