@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>დედაენა 150 — დიდი თავგადასავალი</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="game">
+
+    <div id="hud" class="hidden">
+      <div class="hud-left">
+        <div class="hud-pill">
+          ლეველი <b id="levelNo">1</b>/30
+        </div>
+
+        <div class="hud-pill">
+          ⭐ <b id="score">0</b>
+        </div>
+
+        <div class="hud-pill">
+          ❤️ <b id="lives">3</b>
+        </div>
+      </div>
+
+      <div class="hud-title" id="levelTitle">
+        ქართული ანბანის ველი
+      </div>
+
+      <button id="pauseBtn" class="small-btn">Ⅱ</button>
+    </div>
+
+    <div id="menu" class="screen">
+      <div class="menu-card">
+
+        <div class="anniversary">150 წელი</div>
+
+        <h1>დედაენა</h1>
+        <h2>დიდი თავგადასავალი</h2>
+
+        <p>
+          შეაგროვე ქართული ასოები,
+          გადალახე დაბრკოლებები და
+          გადაარჩინე ცოდნის წიგნი!
+        </p>
+
+        <button id="startBtn" class="main-btn">
+          თამაშის დაწყება
+        </button>
+
+        <button id="levelsBtn" class="secondary-btn">
+          ლეველების ნახვა
+        </button>
+
+        <div class="controls-hint">
+          მართვა: WASD / ისრები · ხტომა: Space · პაუზა: P
+        </div>
+
+      </div>
+    </div>
+
+    <div id="levelScreen" class="screen hidden">
+      <div class="panel">
+        <h2>აირჩიე ლეველი</h2>
+
+        <div id="levelGrid" class="level-grid"></div>
+
+        <button id="backMenuBtn" class="secondary-btn">
+          უკან
+        </button>
+      </div>
+    </div>
+
+    <div id="pauseScreen" class="screen hidden">
+      <div class="panel">
+
+        <h2>პაუზა</h2>
+
+        <p>შენი თავგადასავალი გელოდება.</p>
+
+        <button id="resumeBtn" class="main-btn">
+          გაგრძელება
+        </button>
+
+        <button id="restartBtn" class="secondary-btn">
+          ლეველის თავიდან დაწყება
+        </button>
+
+        <button id="quitBtn" class="secondary-btn">
+          მთავარ მენიუში
+        </button>
+
+      </div>
+    </div>
+
+    <div id="messageScreen" class="screen hidden">
+      <div class="panel message-panel">
+
+        <div class="message-icon" id="messageIcon">📚</div>
+
+        <h2 id="messageTitle">
+          ლეველი დასრულდა!
+        </h2>
+
+        <p id="messageText"></p>
+
+        <button id="nextBtn" class="main-btn">
+          შემდეგი ლეველი
+        </button>
+
+        <button id="messageMenuBtn" class="secondary-btn">
+          მენიუში დაბრუნება
+        </button>
+
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <div id="crosshair">+</div>
+
+    <div id="help">
+      WASD / ისრები — მოძრაობა · Space — ხტომა
+    </div>
+
+    <div id="touchControls" class="hidden">
+
+      <div class="touch-move">
+        <button data-key="ArrowLeft">◀</button>
+        <button data-key="ArrowUp">▲</button>
+        <button data-key="ArrowDown">▼</button>
+        <button data-key="ArrowRight">▶</button>
+      </div>
+
+      <button id="touchJump">ხტომა</button>
+
+    </div>
+
+  </div>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>
